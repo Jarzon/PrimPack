@@ -22,6 +22,7 @@ class Error extends Controller
             $e = 404;
         } else if ($e == 500) {
             header('HTTP/1.1 500 Internal Server Error');
+            ob_end_clean();
         }
 
         $this->design("errors/$e", 'PrimPack');
@@ -29,6 +30,8 @@ class Error extends Controller
 
     public function debug($e)
     {
+        ob_end_clean();
+
         $this->setTemplate('prim', 'PrimPack');
 
         $this->design('debug', 'PrimPack', [
