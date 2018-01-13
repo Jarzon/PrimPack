@@ -31,7 +31,7 @@ class Error extends Controller
     {
         $this->setTemplate('prim', 'PrimPack');
 
-        $this->design('error/debug', 'PrimPack', [
+        $this->design('debug', 'PrimPack', [
             'error' => $e,
             'xdebug' => function_exists('xdebug_get_code_coverage')
         ]);
