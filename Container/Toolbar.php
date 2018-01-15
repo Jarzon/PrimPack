@@ -3,13 +3,13 @@ namespace PrimPack\Container;
 
 trait Toolbar {
     /**
-     * @return \PrimPack\Container\Toolbar
+     * @return \PrimPack\Service\Toolbar
      */
     public function getToolbarService()
     {
         $obj = 'toolbarService';
 
-        $this->setDefaultParameter($obj, '\PrimPack\Container\Toolbar');
+        $this->setDefaultParameter($obj, '\PrimPack\Service\Toolbar');
 
         return $this->init($obj, $this->getView());
     }
