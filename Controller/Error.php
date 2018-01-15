@@ -9,6 +9,20 @@ use Prim\Controller;
  */
 class Error extends Controller
 {
+    protected function cleanOutput() : bool {
+        $xdebugEnabled = function_exists('xdebug_time_index');
+
+        if($xdebugEnabled) {
+            xdebug_disable();
+        }
+
+        if(ob_get_length() > 0) {
+            ob_end_clean();
+        }
+
+        return $xdebugEnabled;
+    }
+
     /**
      * This method handles the error page that will be shown when a page is not found
      */
@@ -21,10 +35,9 @@ class Error extends Controller
             header($allowedMethods);
             $e = 404;
         } else if ($e == 500) {
+            $this->cleanOutput();
+
             header('HTTP/1.1 500 Internal Server Error');
-            if(ob_get_length() > 0) {
-                ob_end_clean();
-            }
         }
 
         $this->design("errors/$e", 'PrimPack');
@@ -32,15 +45,13 @@ class Error extends Controller
 
     public function debug($e)
     {
-        if(ob_get_length() > 0) {
-            ob_end_clean();
-        }
+        $xdebugEnabled = $this->cleanOutput();
 
         $this->setTemplate('prim', 'PrimPack');
 
         $this->design('debug', 'PrimPack', [
             'error' => $e,
-            'xdebug' => function_exists('xdebug_get_code_coverage')
+            'xdebug' => $xdebugEnabled
         ]);
 
         exit;
