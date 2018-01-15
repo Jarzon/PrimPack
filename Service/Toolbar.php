@@ -4,21 +4,30 @@ namespace PrimPack\Service;
 class Toolbar
 {
     protected $view;
+    protected $elements;
 
-    public function __construct( $view)
+    public function __construct($view)
     {
         $this->view = $view;
 
-        $this->view->registerFunction('_formatBytes', function($bytes, $precision = 2) {
-            return $this->formatBytes($bytes, $precision);
+        $this->view->registerFunction('_getToolbar', function() {
+            return $this->getElements();
         });
 
-        $this->view->registerFunction('_getLibraryVersion', function($lib = 'jarzon/prim') {
-            return $this->getLibraryVersion($lib);
-        });
+        $this->addElement(['name' => 'Prim', 'value' => $this->getLibraryVersion()]);
+        $this->addElement(['name' => 'Time', 'value' => floor(xdebug_time_index() * 1000) . ' ms']);
+        $this->addElement(['name' => 'Memory', 'value' => $this->formatBytes(xdebug_memory_usage()) . '/' . $this->formatBytes(xdebug_peak_memory_usage())]);
     }
 
-    function formatBytes($bytes, $precision = 2) {
+    public function addElement($element) {
+        $this->elements[] = $element;
+    }
+
+    public function getElements() : array {
+        return $this->elements;
+    }
+
+    protected function formatBytes($bytes, $precision = 2) {
         $units = array('B', 'KB', 'MB', 'GB', 'TB');
 
         $bytes = max($bytes, 0);
@@ -31,7 +40,7 @@ class Toolbar
         return round($bytes, $precision) . ' ' . $units[$pow];
     }
 
-    function getLibraryVersion($lib = 'jarzon/prim') {
+    protected function getLibraryVersion($lib = 'jarzon/prim') {
         $version = '';
 
         $composerFile = ROOT . 'composer.lock';
