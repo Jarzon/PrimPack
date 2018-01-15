@@ -11,11 +11,11 @@
         font-size: 20px;
         float: left;
         margin: 5px 5px 0 20px;
-        min-width: 230px;
+        min-width: 110px;
     }
 </style>
 <div class="primToolbar">
-    <?php foreach ($_getToolbar() as $element): ?>
-        <div class="<?=strtolower($element['name'])?>"><?=$element['name']?> <?=$element['value']?></div>
+    <?php foreach ($_getToolbar() as $name => $callback): ?>
+        <div><?=$name?> <?=$callback()?></div>
     <?php endforeach; ?>
 </div>

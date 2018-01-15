@@ -14,13 +14,21 @@ class Toolbar
             return $this->getElements();
         });
 
-        $this->addElement(['name' => 'Prim', 'value' => $this->getLibraryVersion()]);
-        $this->addElement(['name' => 'Time', 'value' => floor(xdebug_time_index() * 1000) . ' ms']);
-        $this->addElement(['name' => 'Memory', 'value' => $this->formatBytes(xdebug_memory_usage()) . '/' . $this->formatBytes(xdebug_peak_memory_usage())]);
+        $this->addElement('Prim',  function() {
+            return $this->getLibraryVersion();
+        });
+
+        $this->addElement('Time',  function() {
+            return floor(xdebug_time_index() * 1000) . ' ms';
+        });
+
+        $this->addElement('Memory',  function() {
+            return $this->formatBytes(xdebug_memory_usage()) . ' / ' . $this->formatBytes(xdebug_peak_memory_usage());
+        });
     }
 
-    public function addElement($element) {
-        $this->elements[] = $element;
+    public function addElement($name, callable $func) {
+        $this->elements[$name] = $func;
     }
 
     public function getElements() : array {
