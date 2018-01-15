@@ -69,6 +69,6 @@
             <?= $this->section('default') ?>
         </main>
 
-        <?php $this->toolbar(); ?>
+        <?=$this->insert('toolbar', 'PrimPack')?>
     </body>
 </html>
