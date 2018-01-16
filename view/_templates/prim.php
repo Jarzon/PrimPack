@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width">
         <style>
             body {
+                color: #eee;
                 background: #444;
                 margin: 0;
             }
@@ -47,12 +48,12 @@
             }
 
             table {
-                width: 800px;
-                display: inline-block;
+                color: #222;
+                width: 100%;
             }
 
             th {
-                width: 80px;
+                padding: 5px;
             }
 
             tr {
