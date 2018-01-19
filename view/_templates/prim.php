@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    <meta charset="utf-8">
-        <title>Prim</title>
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
+        <title>Prim</title>
         <style>
             body {
                 color: #eee;
@@ -44,6 +44,14 @@
             }
 
             .debug .trace {
+                text-align: left;
+            }
+
+            .debug .sql {
+                text-align: left;
+            }
+
+            .debug .params {
                 text-align: left;
             }
 

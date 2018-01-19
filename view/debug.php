@@ -1,18 +1,13 @@
 <?php
-/**
- * @var $error Throwable
- */
+/** @var $error Throwable */
 ?>
 <div class="debug">
+    <h2>An error occured:</h2>
 
-    <?php if(get_class( $error ) == 'Exception'): ?>
-        <h2>Exception occured:</h2>
-    <?php elseif(get_class( $error ) == 'Error'): ?>
-        <h2>Error occured:</h2>
-    <?php elseif(get_class( $error ) == 'ParseError'): ?>
-        <h2>Fatal parsing error occured:</h2>
-    <?php else: ?>
-        <h2>Error occured:</h2>
+    <?php if(strpos($error->getMessage(), 'PDO') !== false): ?>
+        <?php $PDO = $this->container->getPDO();?>
+        <div class="sql">Query: <?=nl2br($PDO->lastQuery)?></div>
+        <div class="params">Params: <?=var_export($PDO->lastParams)?></div>
     <?php endif; ?>
 
     <div class="message"><?=$error->getMessage()?></div>

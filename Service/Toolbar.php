@@ -25,6 +25,11 @@ class Toolbar
         $this->addElement('Memory',  function() {
             return $this->formatBytes(xdebug_memory_usage()) . ' / ' . $this->formatBytes(xdebug_peak_memory_usage());
         });
+
+        $this->addElement('PDO', function() {
+            $pdo = $this->getPDO();
+            return "{$pdo->numExecutes} / {$pdo->numStatements}";
+        });
     }
 
     public function addElement($name, callable $func) {
