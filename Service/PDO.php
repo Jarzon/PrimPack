@@ -50,4 +50,9 @@ class PDO extends \PDO{
 
         return call_user_func_array([&$this->PDO, 'exec'], $args);
     }
+
+    public function lastInsertId($name = null)
+    {
+        return $this->PDO->lastInsertId($name);
+    }
 }
