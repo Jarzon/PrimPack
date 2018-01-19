@@ -40,6 +40,11 @@ class PDOStatement implements \IteratorAggregate {
         return call_user_func_array([&$this->PDOS, 'execute'], $args);
     }
 
+    public function rowCount()
+    {
+        return $this->PDOS->rowCount();
+    }
+
     public function __get($property) {
         return $this->PDOS->$property;
     }
