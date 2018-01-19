@@ -11,6 +11,6 @@ trait Toolbar {
 
         $this->setDefaultParameter($obj, '\PrimPack\Service\Toolbar');
 
-        return $this->init($obj, $this->getView());
+        return $this->init($obj, $this->getView(), $this->getPDO());
     }
 }

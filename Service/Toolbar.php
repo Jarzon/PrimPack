@@ -6,9 +6,10 @@ class Toolbar
     protected $view;
     protected $elements;
 
-    public function __construct($view)
+    public function __construct($view, $pdo)
     {
         $this->view = $view;
+        $this->pdo = $pdo;
 
         $this->view->registerFunction('_getToolbar', function() {
             return $this->getElements();
@@ -27,8 +28,7 @@ class Toolbar
         });
 
         $this->addElement('PDO', function() {
-            $pdo = $this->getPDO();
-            return "{$pdo->numExecutes} / {$pdo->numStatements}";
+            return "{$this->pdo->numExecutes} / {$this->pdo->numStatements}";
         });
     }
 
