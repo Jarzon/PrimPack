@@ -9,6 +9,13 @@ use Prim\Controller;
  */
 class Error extends Controller
 {
+    public  $httpErrors = [
+        404 => 'Not Found',
+        405 => 'Method Not Allowed',
+        500 => 'Internal Server Error',
+        503 => 'Service Unavailable'
+    ];
+
     protected function cleanOutput() : bool {
         $xdebugEnabled = function_exists('xdebug_time_index');
 
@@ -28,16 +35,13 @@ class Error extends Controller
      */
     public function handleError($e, $allowedMethods = '')
     {
-        if($e == 404) {
-            header('HTTP/1.1 404 Not Found');
-        } else if ($e == 405) {
-            header('HTTP/1.1 405 Method Not Allowed');
+        $this->cleanOutput();
+
+        header("HTTP/1.1 $e {$this->httpErrors[$e]}");
+
+        if ($e === 405) {
             header($allowedMethods);
             $e = 404;
-        } else if ($e == 500) {
-            $this->cleanOutput();
-
-            header('HTTP/1.1 500 Internal Server Error');
         }
 
         $this->design("errors/$e", 'PrimPack');
