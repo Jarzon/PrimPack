@@ -77,7 +77,5 @@
         <main role="main">
             <?= $this->section('default') ?>
         </main>
-
-        <?=$this->insert('toolbar', 'PrimPack')?>
     </body>
 </html>
