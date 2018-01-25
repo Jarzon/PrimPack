@@ -1,7 +1,7 @@
 <?php
 namespace PrimPack\Service;
 
-class PDO extends \PDO{
+class PDO extends \PDO {
     protected $PDO;
     public $numExecutes;
     public $numStatements;
@@ -54,5 +54,10 @@ class PDO extends \PDO{
     public function lastInsertId($name = null)
     {
         return $this->PDO->lastInsertId($name);
+    }
+
+    public function getAttribute($attribute)
+    {
+        return $this->PDO->getAttribute($attribute);
     }
 }
