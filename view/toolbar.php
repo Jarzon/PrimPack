@@ -13,9 +13,17 @@
         margin: 5px 5px 0 20px;
         min-width: 110px;
     }
+
+    .primToolbar .close {
+        color: #882222;
+        font-size: 18px;
+        float: left;
+        margin: 5px 10px 0 ;
+    }
 </style>
 <div class="primToolbar">
     <?php foreach ($_getToolbar() as $name => $callback): ?>
         <div><?=$name?> <?=$callback()?></div>
     <?php endforeach; ?>
+    <span class="close" onclick="this.parentElement.style = 'display:none;'">❌</span>
 </div>
