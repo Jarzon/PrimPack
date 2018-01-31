@@ -4,12 +4,17 @@ namespace PrimPack\Service;
 class Toolbar
 {
     protected $view;
-    protected $elements;
+    protected $elements = [];
+    protected $options = [];
 
-    public function __construct($view, $pdo)
+    public function __construct($view, $pdo, array $options = [])
     {
         $this->view = $view;
         $this->pdo = $pdo;
+
+        $this->options = $options += [
+            'root' => ''
+        ];
 
         $this->view->registerFunction('_getToolbar', function() {
             return $this->getElements();
@@ -56,7 +61,7 @@ class Toolbar
     protected function getLibraryVersion($lib = 'jarzon/prim') {
         $version = '';
 
-        $composerFile = ROOT . 'composer.lock';
+        $composerFile = "{$this->options['root']}composer.lock";
         if(file_exists($composerFile)) {
             $jsonIterator = new \RecursiveIteratorIterator(
                 new \RecursiveArrayIterator(json_decode(file_get_contents($composerFile), TRUE)),
