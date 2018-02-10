@@ -20,6 +20,12 @@
         float: left;
         margin: 5px 10px 0 ;
     }
+
+    @media print {
+        .primToolbar {
+            display: none;
+        }
+    }
 </style>
 <div class="primToolbar">
     <?php foreach ($_getToolbar() as $name => $callback): ?>
