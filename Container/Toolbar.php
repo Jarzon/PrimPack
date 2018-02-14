@@ -11,6 +11,8 @@ trait Toolbar {
 
         $this->setDefaultParameter($obj, '\PrimPack\Service\Toolbar');
 
-        return $this->init($obj, $this->getView(), $this->getPDO(), $this->options);
+        $pdo = $this->options['db_enable']? $this->getPDO() : null;
+
+        return $this->init($obj, $this->getView(), $pdo, $this->options);
     }
 }

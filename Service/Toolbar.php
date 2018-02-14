@@ -13,7 +13,8 @@ class Toolbar
         $this->pdo = $pdo;
 
         $this->options = $options += [
-            'root' => ''
+            'root' => '',
+            'db_enable' => false
         ];
 
         $this->view->registerFunction('_getToolbar', function() {
@@ -32,9 +33,11 @@ class Toolbar
             return $this->formatBytes(xdebug_memory_usage()) . ' / ' . $this->formatBytes(xdebug_peak_memory_usage());
         });
 
-        $this->addElement('PDO', function() {
-            return "{$this->pdo->numExecutes} / {$this->pdo->numStatements}";
-        });
+        if($options['db_enable']) {
+            $this->addElement('PDO', function() {
+                return "{$this->pdo->numExecutes} / {$this->pdo->numStatements}";
+            });
+        }
     }
 
     public function addElement($name, callable $func) {
