@@ -5,7 +5,7 @@ class PDOStatement implements \IteratorAggregate {
     protected $PDOS;
     protected $PDOp;
 
-    public function __construct($PDOp, $PDOS) {
+    public function __construct($PDOp, object $PDOS) {
         $this->PDOp = $PDOp;
         $this->PDOS = $PDOS;
     }

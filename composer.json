@@ -8,7 +8,7 @@
     "psr-4": {"Tests\\": "tests/"}
   },
   "require": {
-    "php": ">=7.0.0",
+    "php": ">=7.2.0",
     "jarzon/prim": "^0.12.0"
   },
   "require-dev": {
