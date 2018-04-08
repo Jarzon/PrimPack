@@ -36,7 +36,8 @@ class PDOStatement implements \IteratorAggregate {
         $this->PDOp->numExecutes++;
         $args = func_get_args();
 
-        $this->PDOp->lastParams = $args[0];
+        $this->PDOp->lastParams = empty($args)? '': $args[0];
+
         return call_user_func_array([&$this->PDOS, 'execute'], $args);
     }
 
