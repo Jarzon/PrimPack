@@ -4,6 +4,7 @@
         bottom: 0;
         left: 20px;
         background: #333;
+        color: #eee;
         z-index: 999;
     }
 
