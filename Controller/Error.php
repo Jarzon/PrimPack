@@ -41,9 +41,6 @@ class Error extends Controller
 
         header("HTTP/1.1 $code {$this->httpErrors[$code]}");
 
-        $headers[] = 'MIME-Version: 1.0';
-        $headers[] = "From: {$this->options['error_mail_from']}";
-
         $this->addMessage("HTTP code: $code");
 
         if($e !== null) {
@@ -70,7 +67,7 @@ class Error extends Controller
 
         $message = wordwrap(implode("\r\n", $this->messages), 70, "\r\n");
 
-        mail($this->options['error_mail'], 'PHP Error', $message, implode("\r\n", $headers));
+        $this->sendEmail($this->options['error_mail'], $this->options['error_mail_from'], 'PHP Error', $message);
 
         if ($code === 405) {
             header($allowedMethods);
@@ -78,6 +75,22 @@ class Error extends Controller
         }
 
         $this->design("errors/$code", 'PrimPack');
+    }
+
+    protected function sendEmail(string $email, string $name, string $subject, string $message) {
+        $transport = \Swift_SmtpTransport::newInstance($this->options['smtp_url'], $this->options['smtp_port'], $this->options['smtp_secure'])
+            ->setUsername($email)
+            ->setPassword($this->options['smtp_password']);
+
+        $mailer = \Swift_Mailer::newInstance($transport);
+
+        $body = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom([$this->options['email'] => $this->options['email_name']])
+            ->setTo([$email => $name])
+            ->setBody($message);
+
+        return $mailer->send($body);
     }
 
     public function addMessage(string $message)
