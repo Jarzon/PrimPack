@@ -25,13 +25,15 @@ class Toolbar
             return $this->getLibraryVersion();
         });
 
-        $this->addElement('Time',  function() {
-            return floor(xdebug_time_index() * 1000) . ' ms';
-        });
+        if(function_exists('xdebug_time_index')) {
+            $this->addElement('Time',  function() {
+                return floor(xdebug_time_index() * 1000) . ' ms';
+            });
 
-        $this->addElement('Memory',  function() {
-            return $this->formatBytes(xdebug_memory_usage()) . ' / ' . $this->formatBytes(xdebug_peak_memory_usage());
-        });
+            $this->addElement('Memory',  function() {
+                return $this->formatBytes(xdebug_memory_usage()) . ' / ' . $this->formatBytes(xdebug_peak_memory_usage());
+            });
+        }
 
         if($options['db_enable']) {
             $this->addElement('PDO', function() {
