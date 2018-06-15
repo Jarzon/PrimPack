@@ -5,7 +5,10 @@
     <h2>An error occured:</h2>
 
     <?php if(strpos($error->getMessage(), 'PDO') !== false): ?>
-        <?php $PDO = $this->container->getPDO();?>
+        <?php
+        $PDO = $this->container->getPDO();
+        $PDO->errorInfo();
+        ?>
         <div class="sql">Query: <?=nl2br($PDO->lastQuery)?></div>
         <div class="params">Params: <?=var_export($PDO->lastParams)?></div>
     <?php endif; ?>

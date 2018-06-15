@@ -60,4 +60,8 @@ class PDO extends \PDO {
     {
         return $this->PDO->getAttribute($attribute);
     }
+
+    public function errorInfo() {
+        return $this->PDO::errorInfo();
+    }
 }
