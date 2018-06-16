@@ -5,16 +5,17 @@
     <h2>An error occured:</h2>
 
     <?php if(strpos($error->getMessage(), 'PDO') !== false): ?>
-        <?php
-        $PDO = $this->container->getPDO();
-        $PDO->errorInfo();
-        ?>
-        <div class="sql">Query: <?=nl2br($PDO->lastQuery)?></div>
-        <div class="params">Params: <?=var_export($PDO->lastParams)?></div>
-    <?php endif; ?>
+        <?php $PDO = $this->container->getPDO();
+        if(isset($PDO->lastQuery)):?>
+            <div class="sql">Query: <?=nl2br($PDO->lastQuery)?></div>
+            <div class="params">Params: <?=var_export($PDO->lastParams)?></div>
+        <?php endif; ?>
 
-    <div class="message"><?=$error->getMessage()?></div>
-    <div class="location">in <?=$error->getFile()?> at line <?=$error->getLine()?></div>
+        <div class="message"><?=$PDO->errorInfo()[2]?></div>
+    <?php else: ?>
+        <div class="message"><?=$error->getMessage()?></div>
+        <div class="location">in <?=$error->getFile()?> at line <?=$error->getLine()?></div>
+    <?php endif; ?>
 
     <h2>Call trace:</h2>
 

@@ -62,6 +62,6 @@ class PDO extends \PDO {
     }
 
     public function errorInfo() {
-        return $this->PDO::errorInfo();
+        return $this->PDO->errorInfo();
     }
 }
