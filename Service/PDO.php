@@ -6,9 +6,14 @@ class PDO extends \PDO {
     public $numExecutes;
     public $numStatements;
     public $lastQuery;
+    public $lastStatement;
     public $lastParams;
 
-    public function __construct($dsn, $user = '', $pass = '', $driver_options = '') {
+    public function __construct($dsn, $user = '', $pass = '', $driver_options = []) {
+        $driver_options += [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ];
+
         $this->PDO = new \PDO($dsn, $user, $pass, $driver_options);
         $this->numExecutes = 0;
         $this->numStatements = 0;
@@ -17,15 +22,19 @@ class PDO extends \PDO {
         return call_user_func_array([&$this->PDO, $func], $args);
     }
 
-    public function prepare($statement, $options = NULL) {
+    public function prepare($query, $options = NULL) {
         $this->numStatements++;
 
-        $this->lastQuery = $statement;
+        $this->lastQuery = $query;
 
         $args = func_get_args();
         $PDOS = call_user_func_array([&$this->PDO, 'prepare'], $args);
 
-        return new PDOStatement($this, $PDOS);
+        $statement = new PDOStatement($this, $PDOS);
+
+        $this->lastStatement = $statement;
+
+        return $statement;
     }
 
     public function query() {
@@ -62,6 +71,12 @@ class PDO extends \PDO {
     }
 
     public function errorInfo() {
-        return $this->PDO->errorInfo();
+        $error = $this->PDO->errorInfo();
+
+        if($error[0] === 0) {
+            $error = $this->lastStatement->errorInfo();
+        }
+
+        return $error;
     }
 }

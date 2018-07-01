@@ -53,4 +53,8 @@ class PDOStatement implements \IteratorAggregate {
     public function getIterator() {
         return $this->PDOS;
     }
+
+    public function errorInfo() {
+        return $this->PDOS->errorInfo();
+    }
 }

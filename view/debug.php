@@ -4,17 +4,18 @@
 <div class="debug">
     <h2>An error occured:</h2>
 
-    <?php if(strpos($error->getMessage(), 'PDO') !== false): ?>
+    <div class="message"><?=$error->getMessage()?></div>
+    <div class="location">in <?=$error->getFile()?> at line <?=$error->getLine()?></div>
+
+    <?php if(strpos(get_class($error), 'PDO') !== false): ?>
         <?php $PDO = $this->container->getPDO();
         if(isset($PDO->lastQuery)):?>
-            <div class="sql">Query: <?=nl2br($PDO->lastQuery)?></div>
-            <div class="params">Params: <?=var_export($PDO->lastParams)?></div>
-        <?php endif; ?>
+            <h3>Query:</h3>
+            <div class="sql"><?=nl2br($PDO->lastQuery)?></div>
 
-        <div class="message"><?=$PDO->errorInfo()[2]?></div>
-    <?php else: ?>
-        <div class="message"><?=$error->getMessage()?></div>
-        <div class="location">in <?=$error->getFile()?> at line <?=$error->getLine()?></div>
+            <h3>Params:</h3>
+            <div class="params"><?=var_export($PDO->lastParams)?></div>
+        <?php endif; ?>
     <?php endif; ?>
 
     <h2>Call trace:</h2>

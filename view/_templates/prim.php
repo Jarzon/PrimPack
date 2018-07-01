@@ -29,6 +29,10 @@
                 color: rgb(190, 50, 50);
             }
 
+            h3 {
+                text-align: left;
+            }
+
             .debug {
                 text-align: center;
                 font-size: 20px;
