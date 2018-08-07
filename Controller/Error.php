@@ -70,7 +70,7 @@ class Error extends Controller
         $this->sendEmail($this->options['error_mail'], $this->options['error_mail_from'], 'PHP Error', $message);
 
         if ($code === 405) {
-            header($allowedMethods);
+            header('Allow: '. implode(', ', $allowedMethods));
             $code = 404;
         }
 
