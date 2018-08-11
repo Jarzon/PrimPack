@@ -8,18 +8,17 @@
         z-index: 999;
     }
 
+    .hiddenBar {
+        height: 30px;
+        width: 62px;
+        overflow: hidden;
+    }
+
     .primToolbar div {
         font-size: 20px;
         float: left;
         margin: 5px 5px 0 20px;
         min-width: 110px;
-    }
-
-    .primToolbar .close {
-        color: #882222;
-        font-size: 18px;
-        float: left;
-        margin: 5px 10px 0 ;
     }
 
     @media print {
@@ -28,9 +27,8 @@
         }
     }
 </style>
-<div class="primToolbar">
+<div class="primToolbar hiddenBar" onclick="if(this.classList == 'primToolbar') this.classList = 'primToolbar hiddenBar'; else this.classList = 'primToolbar';">
     <?php foreach ($_getToolbar() as $name => $callback): ?>
         <div><?=$name?> <?=$callback()?></div>
     <?php endforeach; ?>
-    <span class="close" onclick="this.parentElement.style = 'display:none;'">❌</span>
 </div>
