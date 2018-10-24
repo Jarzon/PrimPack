@@ -67,7 +67,9 @@ class Error extends Controller
 
         $message = wordwrap(implode("\r\n", $this->messages), 70, "\r\n");
 
-        $this->sendEmail($this->options['error_mail'], $this->options['error_mail_from'], 'PHP Error', $message);
+        if($this->options['debug'] == false) {
+            $this->sendEmail($this->options['error_mail'], $this->options['error_mail_from'], 'PHP Error', $message);
+        }
 
         if ($code === 405) {
             header('Allow: '. implode(', ', $allowedMethods));
