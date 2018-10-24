@@ -65,6 +65,8 @@ class Error extends Controller
 
         $this->addMessage("Uri: {$_SERVER['REQUEST_URI']}");
 
+        $this->addMessage("IP: {$_SERVER['REMOTE_ADDR']}");
+
         $message = wordwrap(implode("\r\n", $this->messages), 70, "\r\n");
 
         if($this->options['debug'] == false) {
