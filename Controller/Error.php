@@ -70,7 +70,7 @@ class Error extends Controller
         $message = wordwrap(implode("\r\n", $this->messages), 70, "\r\n");
 
         if($this->options['debug'] == false) {
-            $this->sendEmail($this->options['error_mail'], $this->options['error_mail_from'], 'PHP Error', $message);
+            $this->sendEmail($this->options['error_email'], 'PHP Error', $message);
         }
 
         if ($code === 405) {
@@ -81,17 +81,17 @@ class Error extends Controller
         $this->design("errors/$code", 'PrimPack');
     }
 
-    protected function sendEmail(string $email, string $name, string $subject, string $message) {
+    protected function sendEmail(string $email, string $subject, string $message) {
         $transport = \Swift_SmtpTransport::newInstance($this->options['smtp_url'], $this->options['smtp_port'], $this->options['smtp_secure'])
-            ->setUsername($email)
+            ->setUsername($this->options['smtp_email'])
             ->setPassword($this->options['smtp_password']);
 
         $mailer = \Swift_Mailer::newInstance($transport);
 
         $body = \Swift_Message::newInstance()
             ->setSubject($subject)
-            ->setFrom([$this->options['email'] => $this->options['email_name']])
-            ->setTo([$email => $name])
+            ->setFrom([$this->options['smtp_email'] => "{$this->options['project_name']} Error report"])
+            ->setTo($email)
             ->setBody($message);
 
         return $mailer->send($body);
