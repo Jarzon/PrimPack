@@ -16,7 +16,7 @@ class Admin extends Controller
 
     public function index()
     {
-        $this->render('admin', '', [
+        $this->render('admin/index', '', [
             'sections' => [
                 'users' => '/admin/users/'
             ]

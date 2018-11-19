@@ -7,7 +7,7 @@ trait Admin {
      */
     public function getAdminService()
     {
-        $obj = 'toolbarService';
+        $obj = 'adminService';
 
         $this->setDefaultParameter($obj, \PrimPack\Service\Admin::class);
 
