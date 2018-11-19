@@ -9,7 +9,7 @@ trait Toolbar {
     {
         $obj = 'toolbarService';
 
-        $this->setDefaultParameter($obj, '\PrimPack\Service\Toolbar');
+        $this->setDefaultParameter($obj, \PrimPack\Service\Toolbar::class);
 
         $pdo = $this->options['db_enable']? $this->getPDO() : null;
 
