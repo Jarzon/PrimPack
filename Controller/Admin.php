@@ -1,5 +1,5 @@
 <?php
-namespace Libellum\BasePack\Controller;
+namespace PrimPack\Controller;
 
 use Prim\Controller;
 
