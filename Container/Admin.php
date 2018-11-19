@@ -5,7 +5,7 @@ trait Admin {
     /**
      * @return \PrimPack\Service\Admin
      */
-    public function getToolbarService()
+    public function getAdminService()
     {
         $obj = 'toolbarService';
 
