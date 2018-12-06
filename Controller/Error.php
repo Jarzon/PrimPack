@@ -43,19 +43,33 @@ class Error extends Controller
 
         $this->addMessage("HTTP code: $code");
 
+        // SQL server is down\unreachable
+        if(get_class($e) === 'PDOException') {
+            $code = 503;
+        }
+
+        if($this->options['debug'] == false) {
+            $this->emailReportError($e);
+        }
+
+        if ($code === 405) {
+            header('Allow: '. implode(', ', $allowedMethods));
+            $code = 404;
+        }
+
+        $this->design("errors/$code", 'PrimPack');
+    }
+
+    public function emailReportError($e)
+    {
         if($e !== null) {
             $this->addMessage('Type: '.get_class($e));
             $this->addMessage("Message: {$e->getMessage()}");
             $this->addMessage("File: {$e->getFile()}");
             $this->addMessage("Line: {$e->getLine()}");
 
-            // SQL server is down\unreachable
-            if(get_class($e) === 'PDOException') {
-                $code = 503;
-            }
-
-            // The query and params shouldn't be sended by email but logged
-            else if(strpos($e->getMessage(), 'PDO') !== false) {
+            // The query and params shouldn't be sended by email but logged only
+            if(strpos($e->getMessage(), 'PDO') !== false) {
                 $PDO = $this->container->getPDO();
 
                 $this->addMessage('Query: ' . nl2br($PDO->lastQuery));
@@ -69,16 +83,7 @@ class Error extends Controller
 
         $message = wordwrap(implode("\r\n", $this->messages), 70, "\r\n");
 
-        if($this->options['debug'] == false) {
-            $this->sendEmail($this->options['error_email'], 'PHP Error', $message);
-        }
-
-        if ($code === 405) {
-            header('Allow: '. implode(', ', $allowedMethods));
-            $code = 404;
-        }
-
-        $this->design("errors/$code", 'PrimPack');
+        $this->sendEmail($this->options['error_email'], 'PHP Error', $message);
     }
 
     protected function sendEmail(string $email, string $subject, string $message) {
