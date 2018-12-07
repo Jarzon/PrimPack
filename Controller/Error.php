@@ -44,7 +44,7 @@ class Error extends Controller
         $this->addMessage("HTTP code: $code");
 
         // SQL server is down\unreachable
-        if(get_class($e) === 'PDOException') {
+        if($e !== null && get_class($e) === 'PDOException') {
             $code = 503;
         }
 
