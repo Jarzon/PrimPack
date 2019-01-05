@@ -25,6 +25,12 @@ class Toolbar
             return $this->getLibraryVersion();
         });
 
+        $this->addElement('Version',  function() {
+            $latestTag = exec('git describe --tags `git rev-list --tags --max-count=1`');
+
+            return $latestTag;
+        });
+
         if(function_exists('xdebug_time_index')) {
             $this->addElement('Time',  function() {
                 return floor(xdebug_time_index() * 1000) . ' ms';
