@@ -11,8 +11,6 @@ trait Admin {
 
         $this->setDefaultParameter($obj, \PrimPack\Service\Admin::class);
 
-        $isAdmin = (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] === true)? true: false;
-
-        return $this->init($obj, $isAdmin);
+        return $this->init($obj, $_SESSION?? []);
     }
 }

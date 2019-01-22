@@ -9,7 +9,7 @@
   },
   "require": {
     "php": ">=7.2.0",
-    "jarzon/prim": "^0.12.0",
+    "jarzon/prim": "^0.13.0",
     "swiftmailer/swiftmailer": "~5.4"
   },
   "require-dev": {

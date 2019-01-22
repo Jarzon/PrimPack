@@ -5,8 +5,8 @@ class Admin
 {
     protected $isAdmin = false;
 
-    public function __construct(bool $isAdmin = false) {
-        $this->isAdmin = $isAdmin;
+    public function __construct(array $session) {
+        $this->isAdmin = $session['isAdmin']?? false;
     }
 
     function isAdmin(): bool

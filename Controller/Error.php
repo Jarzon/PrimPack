@@ -3,10 +3,6 @@ namespace PrimPack\Controller;
 
 use Prim\Controller;
 
-/**
- * Errors
- *
- */
 class Error extends Controller
 {
     protected $messages = [];
