@@ -44,7 +44,7 @@ class Error extends Controller
             $code = 503;
         }
 
-        if($this->options['debug'] == false) {
+        if($this->options['debug'] == false && $code !== 404) {
             $this->emailReportError($e);
         }
 
