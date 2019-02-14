@@ -49,6 +49,20 @@
 
             .debug .trace {
                 text-align: left;
+                padding: 5px;
+                border: 2px solid #000;
+                border-bottom: 0;
+
+                color: #191919;
+            }
+
+            .debug .trace:last-child {
+                border-bottom: 2px solid #000;
+            }
+
+            .debug .calledMethod {
+                color: #ccc;
+                font-size: 22px;
             }
 
             .debug .sql {

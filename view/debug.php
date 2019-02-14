@@ -21,12 +21,12 @@
     <h2>Call trace:</h2>
 
     <?php
-    $line = $error->getLine();
-    foreach ($error->getTrace() as $i): ?>
+    foreach ($error->getTrace() as $i):
+        if(!isset($i['file']) && !isset($i['line']) || !isset($i['class'])) continue; ?>
         <div class="trace">
-            <?=isset($i['class'])? $i['class'] . '->': ''?><?=isset($i['function'])? $i['function']: ''?>(<?=implode(', ', isset($i['params'])? $i['params']: [])?>):<?=$line?>
+            <div class="calledMethod"><?=($i['class'] ?? '') . '->'?><?=$i['function'] ?? ''?>()</div>
+
+            <?=$i['file'] ?? ''?>:<?=$i['line'] ?? 0?>
         </div>
-    <?php
-        $line = isset($i['line'])? $i['line']: 0;
-    endforeach; ?>
+    <?php endforeach; ?>
 </div>
