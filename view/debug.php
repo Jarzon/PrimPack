@@ -21,10 +21,13 @@
     <h2>Call trace:</h2>
 
     <?php
+    $line = $error->getLine();
     foreach ($error->getTrace() as $i):
-        if(!isset($i['file']) && !isset($i['line']) || !isset($i['class'])) continue; ?>
-        <div class="trace">
-            <div class="calledMethod"><?=($i['class'] ?? '') . '->'?><?=$i['function'] ?? ''?>()</div>
+        $class = $i['class'] ?? null;
+
+        if(!isset($i['file']) && !isset($i['line']) || !$class) continue; ?>
+        <div class="trace<?=strpos($class, $this->options['project_name']) !== false ? ' important':'' ?>">
+            <div class="calledMethod"><?=$class . '->'?><?=$i['function'] ?? ''?>()</div>
 
             <?=$i['file'] ?? ''?>:<?=$i['line'] ?? 0?>
         </div>

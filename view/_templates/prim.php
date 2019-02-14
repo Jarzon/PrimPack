@@ -49,10 +49,10 @@
 
             .debug .trace {
                 text-align: left;
-                padding: 5px;
+                padding: 10px;
                 border: 2px solid #000;
                 border-bottom: 0;
-
+                font-size: 18px;
                 color: #191919;
             }
 
@@ -62,7 +62,11 @@
 
             .debug .calledMethod {
                 color: #ccc;
+            }
+
+            .debug .important {
                 font-size: 22px;
+                background: #555;
             }
 
             .debug .sql {
