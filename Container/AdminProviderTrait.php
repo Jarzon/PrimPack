@@ -1,7 +1,7 @@
 <?php
 namespace PrimPack\Container;
 
-trait Admin {
+trait AdminProviderTrait {
     /**
      * @return \PrimPack\Service\Admin
      */

@@ -1,7 +1,7 @@
 <?php
 namespace PrimPack\Container;
 
-trait Toolbar {
+trait ToolbarProviderTrait {
     /**
      * @return \PrimPack\Service\Toolbar
      */
