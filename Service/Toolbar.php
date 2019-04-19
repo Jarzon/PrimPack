@@ -12,7 +12,7 @@ class Toolbar
         $this->view = $view;
         $this->pdo = $pdo;
 
-        $this->options = $options += [
+        $this->root = $options += [
             'root' => '',
             'db_enable' => false
         ];
