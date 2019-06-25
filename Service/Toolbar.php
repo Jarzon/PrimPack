@@ -17,6 +17,17 @@ class Toolbar
             'db_enable' => false
         ];
 
+        $this->addElement('Prim',  function() {});
+        $this->addElement('Version',  function() {});
+
+        $this->addElement('Time',  function() {
+            return substr(round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 3), 2) . ' ms';
+        });
+
+        $this->addElement('Memory',  function() {
+            return $this->formatBytes(memory_get_usage()) . ' - ' . $this->formatBytes(memory_get_peak_usage()) . ' / ' . $this->formatBytes(memory_get_peak_usage(true));
+        });
+
         $this->view->registerFunction('_getToolbar', function() {
             return $this->getElements();
         });
@@ -30,16 +41,6 @@ class Toolbar
 
             return $latestTag;
         });
-
-        if(function_exists('xdebug_time_index')) {
-            $this->addElement('Time',  function() {
-                return floor(xdebug_time_index() * 1000) . ' ms';
-            });
-
-            $this->addElement('Memory',  function() {
-                return $this->formatBytes(xdebug_memory_usage()) . ' / ' . $this->formatBytes(xdebug_peak_memory_usage());
-            });
-        }
 
         if($options['db_enable']) {
             $this->addElement('PDO', function() {
