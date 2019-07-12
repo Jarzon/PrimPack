@@ -66,7 +66,7 @@ class Error extends Controller
 
             // The query and params shouldn't be sended by email but logged only
             if(strpos($e->getMessage(), 'PDO') !== false) {
-                $PDO = $this->container->getPDO();
+                $PDO = $this->container->get('pdo');
 
                 $this->addMessage('Query: ' . nl2br($PDO->lastQuery));
                 $this->addMessage('Params: ' . var_export($PDO->lastParams));
