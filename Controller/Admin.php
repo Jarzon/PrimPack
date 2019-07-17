@@ -1,23 +1,10 @@
 <?php
 namespace PrimPack\Controller;
 
-use Prim\Controller;
+use Prim\AbstractController;
 
-class Admin extends Controller
+class Admin extends AbstractController
 {
-    protected $admin;
-
-    public function __construct(\Prim\View $view, array $options, \PrimPack\Service\Admin $admin)
-    {
-        parent::__construct($view, $options);
-
-        $this->admin = $admin;
-
-        if(!$this->admin->isAdmin()) {
-            header("HTTP/1.1 403 Forbidden");exit;
-        }
-    }
-
     public function index()
     {
         $this->render('admin/index', '', [

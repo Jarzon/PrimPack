@@ -1,9 +1,9 @@
 <?php
 namespace PrimPack\Controller;
 
-use Prim\Controller;
+use Prim\AbstractController;
 
-class Error extends Controller
+class Error extends AbstractController
 {
     protected $messages = [];
 
