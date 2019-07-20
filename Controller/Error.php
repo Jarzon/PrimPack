@@ -2,10 +2,12 @@
 namespace PrimPack\Controller;
 
 use Prim\AbstractController;
+use Prim\Container;
 
 class Error extends AbstractController
 {
     protected $messages = [];
+    public $container;
 
     public  $httpErrors = [
         404 => 'Not Found',
@@ -13,6 +15,13 @@ class Error extends AbstractController
         500 => 'Internal Server Error',
         503 => 'Service Unavailable'
     ];
+
+    public function __construct($view, array $options = [], Container $container)
+    {
+        parent::__construct($view, $options);
+
+        $this->container = $container;
+    }
 
     protected function cleanOutput() : bool {
         $xdebugEnabled = function_exists('xdebug_time_index');
@@ -111,7 +120,8 @@ class Error extends AbstractController
 
         $this->design('debug', 'PrimPack', [
             'error' => $e,
-            'xdebug' => $xdebugEnabled
+            'xdebug' => $xdebugEnabled,
+            'container' => $this->container
         ]);
 
         exit;

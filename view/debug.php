@@ -8,7 +8,7 @@
     <div class="location">in <?=$error->getFile()?> at line <?=$error->getLine()?></div>
 
     <?php if(strpos(get_class($error), 'PDO') !== false): ?>
-        <?php $PDO = $this->container->get('pdo');
+        <?php $PDO = $container->get('pdo');
         if(isset($PDO->lastQuery)):?>
             <h3>Query:</h3>
             <div class="sql"><?=nl2br($PDO->lastQuery)?></div>
