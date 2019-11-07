@@ -1,6 +1,8 @@
 <?php
 namespace PrimPack\Service;
 
+use PackageVersions\Versions;
+
 class Toolbar
 {
     protected $view;
@@ -33,16 +35,14 @@ class Toolbar
         });
 
         $this->addElement('Prim',  function() {
-            return $this->getLibraryVersion();
+            return Versions::getVersion('jarzon/prim');
         });
 
         $this->addElement('Version',  function() {
-            $latestTag = exec('git describe --tags `git rev-list --tags --max-count=1`');
-
-            return $latestTag;
+            return Versions::getVersion(Versions::ROOT_PACKAGE_NAME);
         });
 
-        if($options['db_enable']) {
+        if($options['db_enable'] && $options['environment'] === 'dev') {
             $this->addElement('PDO', function() {
                 return "{$this->pdo->numExecutes} / {$this->pdo->numStatements}";
             });
@@ -68,32 +68,5 @@ class Toolbar
         $bytes /= pow(1024, $pow);
 
         return round($bytes, $precision) . ' ' . $units[$pow];
-    }
-
-    protected function getLibraryVersion($lib = 'jarzon/prim') {
-        $version = '';
-
-        $composerFile = "{$this->options['root']}composer.lock";
-        if(file_exists($composerFile)) {
-            $jsonIterator = new \RecursiveIteratorIterator(
-                new \RecursiveArrayIterator(json_decode(file_get_contents($composerFile), TRUE)),
-                \RecursiveIteratorIterator::SELF_FIRST);
-
-            $in = false;
-            foreach ($jsonIterator as $key => $val) {
-                if($key == 'name' && $val == $lib) {
-                    $in = true;
-                }
-
-                if($in && $key == 'version') {
-                    $version = $val;
-                    break;
-                }
-            }
-
-            $version = str_replace('v', '', $version);
-        }
-
-        return $version;
     }
 }
