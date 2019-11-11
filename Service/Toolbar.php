@@ -35,11 +35,11 @@ class Toolbar
         });
 
         $this->addElement('Prim',  function() {
-            return Versions::getVersion('jarzon/prim');
+            return $this->getVersion('jarzon/prim');
         });
 
         $this->addElement('Version',  function() {
-            return Versions::getVersion(Versions::ROOT_PACKAGE_NAME);
+            return $this->getVersion(Versions::ROOT_PACKAGE_NAME);
         });
 
         if($options['db_enable'] && $options['environment'] === 'dev') {
@@ -47,6 +47,18 @@ class Toolbar
                 return "{$this->pdo->numExecutes} / {$this->pdo->numStatements}";
             });
         }
+    }
+
+    public function getVersion(string $package): string
+    {
+        $version = Versions::getVersion($package);
+        $separatorPos = strpos($version, '@');
+
+        if($separatorPos !== false) {
+            $version = substr($version, 0, $separatorPos);
+        }
+
+        return $version;
     }
 
     public function addElement($name, callable $func) {
