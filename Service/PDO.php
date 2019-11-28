@@ -3,11 +3,11 @@ namespace PrimPack\Service;
 
 class PDO extends \PDO {
     protected $PDO;
-    public $numExecutes;
-    public $numStatements;
-    public $lastQuery;
-    public $lastStatement;
-    public $lastParams;
+    public int $numExecutes = 0;
+    public int $numStatements = 0;
+    public string $lastQuery = '';
+    public string $lastStatement = '';
+    public array $lastParams;
 
     public function __construct($dsn, $user = '', $pass = '', $driver_options = []) {
         $driver_options += [
@@ -15,8 +15,6 @@ class PDO extends \PDO {
         ];
 
         $this->PDO = new \PDO($dsn, $user, $pass, $driver_options);
-        $this->numExecutes = 0;
-        $this->numStatements = 0;
     }
     public function __call($func, $args) {
         return call_user_func_array([&$this->PDO, $func], $args);

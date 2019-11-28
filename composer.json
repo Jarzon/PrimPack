@@ -8,8 +8,8 @@
     "psr-4": {"Tests\\": "tests/"}
   },
   "require": {
-    "php": ">=7.2.0",
-    "jarzon/prim": "^0.15.0",
+    "php": ">=7.4.0",
+    "jarzon/prim": "^0.16.0",
     "swiftmailer/swiftmailer": "~5.4",
     "ocramius/package-versions": "^1.5"
   },

@@ -6,10 +6,10 @@ use Prim\Container;
 
 class Error extends AbstractController
 {
-    protected $messages = [];
-    public $container;
+    protected array $messages = [];
+    public Container $container;
 
-    public  $httpErrors = [
+    public array $httpErrors = [
         404 => 'Not Found',
         405 => 'Method Not Allowed',
         500 => 'Internal Server Error',

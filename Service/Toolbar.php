@@ -2,14 +2,15 @@
 namespace PrimPack\Service;
 
 use PackageVersions\Versions;
+use Prim\View;
 
 class Toolbar
 {
-    protected $view;
-    protected $elements = [];
-    protected $options = [];
+    protected View $view;
+    public array $elements = [];
+    protected array $options = [];
 
-    public function __construct($view, $pdo, array $options = [])
+    public function __construct(View $view, $pdo, array $options = [])
     {
         $this->view = $view;
         $this->pdo = $pdo;
@@ -31,7 +32,7 @@ class Toolbar
         });
 
         $this->view->registerFunction('_getToolbar', function() {
-            return $this->getElements();
+            return $this->elements;
         });
 
         $this->addElement('Prim',  function() {
@@ -63,10 +64,6 @@ class Toolbar
 
     public function addElement($name, callable $func) {
         $this->elements[$name] = $func;
-    }
-
-    public function getElements() : array {
-        return $this->elements;
     }
 
     protected function formatBytes($bytes, $precision = 2) {

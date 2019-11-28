@@ -2,10 +2,10 @@
 namespace PrimPack\Service;
 
 class PDOStatement implements \IteratorAggregate {
-    protected $PDOS;
-    protected $PDOp;
+    protected object $PDOS;
+    protected PDO $PDOp;
 
-    public function __construct($PDOp, object $PDOS) {
+    public function __construct(PDO $PDOp, object $PDOS) {
         $this->PDOp = $PDOp;
         $this->PDOS = $PDOS;
     }
