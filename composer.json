@@ -11,7 +11,7 @@
   "require": {
     "php": ">=7.4.0",
     "jarzon/prim": "^0.16.0",
-    "swiftmailer/swiftmailer": "~5.4",
+    "swiftmailer/swiftmailer": ">=6.2",
     "ocramius/package-versions": "^1.5"
   }
 }
