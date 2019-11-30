@@ -6,7 +6,7 @@ class PDO extends \PDO {
     public int $numExecutes = 0;
     public int $numStatements = 0;
     public string $lastQuery = '';
-    public string $lastStatement = '';
+    public PDOStatement $lastStatement;
     public array $lastParams;
 
     public function __construct($dsn, $user = '', $pass = '', $driver_options = []) {
