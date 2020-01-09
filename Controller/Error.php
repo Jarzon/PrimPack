@@ -92,13 +92,13 @@ class Error extends AbstractController
     }
 
     protected function sendEmail(string $email, string $subject, string $message) {
-        $transport = \Swift_SmtpTransport::newInstance($this->options['smtp_url'], $this->options['smtp_port'], $this->options['smtp_secure'])
+        $transport = (new \Swift_SmtpTransport($this->options['smtp_url'], $this->options['smtp_port'], $this->options['smtp_secure']))
             ->setUsername($this->options['smtp_email'])
             ->setPassword($this->options['smtp_password']);
 
-        $mailer = \Swift_Mailer::newInstance($transport);
+        $mailer = new \Swift_Mailer($transport);
 
-        $body = \Swift_Message::newInstance()
+        $body = (new \Swift_Message)
             ->setSubject($subject)
             ->setFrom([$this->options['smtp_email'] => "{$this->options['project_name']} Error report"])
             ->setTo($email)
