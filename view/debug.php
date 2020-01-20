@@ -21,7 +21,6 @@
     <h2>Call trace:</h2>
 
     <?php
-    $line = $error->getLine();
     foreach ($error->getTrace() as $i):
         $class = $i['class'] ?? null;
 

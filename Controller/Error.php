@@ -3,6 +3,7 @@ namespace PrimPack\Controller;
 
 use Prim\AbstractController;
 use Prim\Container;
+use PrimPack\Service\PDO;
 
 class Error extends AbstractController
 {
@@ -54,7 +55,7 @@ class Error extends AbstractController
         }
 
         if($this->options['debug'] == false && $code !== 404) {
-            $this->emailReportError($e);
+            $this->logError($e);
         }
 
         if ($code === 405) {
@@ -65,46 +66,56 @@ class Error extends AbstractController
         $this->design("errors/$code", 'PrimPack');
     }
 
-    public function emailReportError($e)
-    {
-        if($e !== null) {
-            $this->addMessage('Type: '.get_class($e));
-            $this->addMessage("Message: {$e->getMessage()}");
-            $this->addMessage("File: {$e->getFile()}");
-            $this->addMessage("Line: {$e->getLine()}");
-
-            // The query and params shouldn't be sended by email but logged only
-            if(strpos($e->getMessage(), 'PDO') !== false) {
-                $PDO = $this->container->get('pdo');
-
-                $this->addMessage('Query: ' . nl2br($PDO->lastQuery));
-                $this->addMessage('Params: ' . var_export($PDO->lastParams));
+    protected function getLine($e) {
+        foreach ($e as $i) {
+            if(isset($i['file']) && isset($i['line']) && isset($i['class']) && strpos($i['class'], $this->options['project_name']) !== false) {
+                return [$i['file'], $i['line']];
             }
         }
 
-        $this->addMessage("Uri: {$_SERVER['REQUEST_URI']}");
-
-        $this->addMessage("IP: {$_SERVER['REMOTE_ADDR']}");
-
-        $message = wordwrap(implode("\r\n", $this->messages), 70, "\r\n");
-
-        $this->sendEmail($this->options['error_email'], 'PHP Error', $message);
+        return [];
     }
 
-    protected function sendEmail(string $email, string $subject, string $message) {
-        $transport = (new \Swift_SmtpTransport($this->options['smtp_url'], $this->options['smtp_port'], $this->options['smtp_secure']))
-            ->setUsername($this->options['smtp_email'])
-            ->setPassword($this->options['smtp_password']);
+    public function logError($e)
+    {
+        $this->addMessage('Date: '.date('Ymd:His'));
+        $this->addMessage("Uri: {$_SERVER['REQUEST_URI']}");
+        $this->addMessage("IP: {$_SERVER['REMOTE_ADDR']}");
 
-        $mailer = new \Swift_Mailer($transport);
+        if($e !== null) {
+            $this->addMessage('Type: '.get_class($e));
+            $this->addMessage("Message: {$e->getMessage()}");
+            $this->addMessage("Finale file: {$e->getFile()}");
+            $this->addMessage("Finale line: {$e->getLine()}");
 
-        $body = (new \Swift_Message)
-            ->setSubject($subject)
-            ->setFrom([$this->options['smtp_email'] => "{$this->options['project_name']} Error report"])
-            ->setTo($email)
-            ->setBody($message);
+            $line = $this->getLine($e->getTrace());
 
-        return $mailer->send($body);
+            if(!empty($line)) {
+                $this->addMessage("File: {$line[0]}");
+                $this->addMessage("Line: {$line[1]}");
+            }
+
+            if(strpos($e->getMessage(), 'PDO') !== false) {
+                $PDO = $this->container->get('pdo');
+
+                if($PDO instanceof PDO) {
+                    $this->addMessage('Query: ' . $PDO->lastQuery);
+                    $this->addMessage('Params: ' . var_export($PDO->lastParams, true));
+                }
+            }
+        }
+
+        if(isset($_SESSION)) {
+            $this->addMessage("Session: " . var_export($_SESSION, true));
+        }
+
+        if(isset($_POST)) {
+            $this->addMessage("POST: " . var_export($_POST, true));
+        }
+
+        $message = implode("\r\n", $this->messages);
+
+        file_put_contents($this->options['root'] . 'data/logs/' . date('Ymd:His') .'_'. strlen($message), $message);
     }
 
     public function addMessage(string $message)
