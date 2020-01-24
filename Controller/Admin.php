@@ -37,7 +37,17 @@ class Admin extends AbstractController
         $content = file_get_contents($file);
 
         $this->render('admin/showlog', '', [
+            'name' => $name,
             'content' => $content
         ]);
+    }
+
+    public function deleteLog($name)
+    {
+        $file = $this->options['root'] . 'data/logs/'.$name;
+
+        if(file_exists($file)) unlink($file);
+
+        $this->redirect('/admin/logs/');
     }
 }
