@@ -2,7 +2,7 @@
 
 $content = nl2br(str_replace('  ', '<div class="tabs"></div>', $content));
 
-foreach (['HTTP code', 'Date', 'Uri', 'IP', 'Type', 'Message', 'Finale file', 'Finale line', 'File', 'Line'] as $item) {
+foreach (['HTTP code', 'User', 'Date', 'Uri', 'IP', 'Type', 'Message', 'Finale file', 'Finale line', 'File', 'Line'] as $item) {
     $content = str_replace("{$item}:", "<div class='title'>{$item}</div>", $content);
 }
 
