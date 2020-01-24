@@ -1,5 +1,17 @@
 <?php /** @var $this \Prim\View */
 
+$content = nl2br(str_replace('  ', '<div class="tabs"></div>', $content));
+
+foreach (['Date:', 'Uri:', 'IP:', 'Type:', 'Message:', 'Finale file:', 'Finale line:', 'File:', 'Line:'] as $item) {
+
+}
+
+$content = str_replace('Session:', "<details><summary>Session</summary>", $content);
+
+$content = str_replace('POST:', "</details><details><summary>POST</summary>", $content);
+
+$content = preg_replace("/\)$/s", ")</details>", $content, PREG_OFFSET_CAPTURE);
+
 $this->start('default'); ?>
 <style>
     .goback {
@@ -18,6 +30,6 @@ $this->start('default'); ?>
 <h1>Logs</h1>
 
 <div>
-    <?=nl2br(str_replace("  ", "<div class=\"tabs\"></div>", $content))?>
+    <?=$content?>
 </div>
 <?php $this->end(); ?>

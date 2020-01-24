@@ -39,6 +39,10 @@ class Toolbar
             return $this->getVersion('jarzon/prim');
         });
 
+        $this->addElement('Env',  function() {
+            return $this->options['environment'];
+        });
+
         $this->addElement('Version',  function() {
             return $this->getVersion(Versions::ROOT_PACKAGE_NAME);
         });

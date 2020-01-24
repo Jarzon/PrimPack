@@ -78,7 +78,7 @@ class Error extends AbstractController
 
     public function logError($e)
     {
-        $this->addMessage('Date: '.date('Ymd:His'));
+        $this->addMessage('Date: '.date('Y-m-d H:i:s'));
         $this->addMessage("Uri: {$_SERVER['REQUEST_URI']}");
         $this->addMessage("IP: {$_SERVER['REMOTE_ADDR']}");
 
