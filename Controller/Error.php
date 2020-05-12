@@ -76,7 +76,7 @@ class Error extends AbstractController
         return [];
     }
 
-    public function logError(\Exception $e)
+    public function logError(\Throwable $e)
     {
         $this->addMessage('Date: '.date('Y-m-d H:i:s'));
         $this->addMessage("Uri: {$_SERVER['REQUEST_URI']}");
@@ -95,7 +95,7 @@ class Error extends AbstractController
                 $this->addMessage("Line: {$line[1]}");
             }
 
-            if(get_class($e) === 'PDOException' || strpos($e->getMessage(), 'PDO') !== false) {
+            if($e instanceof \PDOException || strpos($e->getMessage(), 'PDO') !== false) {
                 $PDO = $this->container->get('pdo');
 
                 if($PDO instanceof PDO) {
