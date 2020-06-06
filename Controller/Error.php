@@ -54,7 +54,7 @@ class Error extends AbstractController
             $code = 503;
         }
 
-        if($this->options['debug'] == false && $code !== 404) {
+        if($this->options['debug'] === false && $code !== 404 && $code !== 405) {
             $this->logError($e);
         }
 
