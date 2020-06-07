@@ -34,7 +34,11 @@ class Admin extends AbstractController
     {
         $file = $this->options['root'] . 'data/logs/'.$name;
 
-        $content = file_get_contents($file);
+        $content = "The log file doesn't exist";
+
+        if(file_exists($file)) {
+            $content = file_get_contents($file);
+        }
 
         $this->render('admin/showlog', '', [
             'name' => $name,
