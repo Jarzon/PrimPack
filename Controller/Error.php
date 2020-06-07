@@ -85,9 +85,9 @@ class Error extends AbstractController
         if($e !== null) {
             $this->addMessage('Type: '.get_class($e));
             if(get_class($e) === 'GuzzleHttp\Exception\ClientException') {
-                $this->addMessage("Message: {$e->getMessage()}");
-            } else {
                 $this->addMessage("Message: {$e->getResponse()->getBody()->getContents()}");
+            } else {
+                $this->addMessage("Message: {$e->getMessage()}");
             }
 
             $this->addMessage("Finale file: {$e->getFile()}");
