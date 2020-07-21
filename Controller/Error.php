@@ -11,6 +11,7 @@ class Error extends AbstractController
     public Container $container;
 
     public array $httpErrors = [
+        401 => 'Unauthorized',
         404 => 'Not Found',
         405 => 'Method Not Allowed',
         500 => 'Internal Server Error',
@@ -54,7 +55,7 @@ class Error extends AbstractController
             $code = 503;
         }
 
-        if($this->options['debug'] === false && $code !== 404 && $code !== 405) {
+        if($this->options['debug'] === false && (floor($code / 100) * 100) === 500) {
             $this->logError($e);
         }
 
