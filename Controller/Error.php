@@ -55,7 +55,7 @@ class Error extends AbstractController
             $code = 503;
         }
 
-        if($this->options['debug'] === false && (floor($code / 100) * 100) === 500) {
+        if($this->options['debug'] === false && ((int)floor($code / 100) * 100) === 500) {
             $this->logError($e);
         }
 
