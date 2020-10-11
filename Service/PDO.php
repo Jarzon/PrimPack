@@ -35,7 +35,7 @@ class PDO extends \PDO {
         return $statement;
     }
 
-    public function query() {
+    public function query(string $query, ?int $fetch_mode = null, mixed ...$fetch_mode_args) {
         $this->numExecutes++;
         $this->numStatements++;
 
