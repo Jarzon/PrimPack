@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-$title = 'Error 401: Unauthorized';
+$title = $_('Error 401: Unauthorized');
 ?>
 
-<p>You don't have the autorization to see this page <a href="/connexion">Please use the connexion page</a></p>
+<p><?=$_("You don't have the autorization to see this page")?><a href="/connexion"><?=$_('Please use the connexion page')?></a></p>

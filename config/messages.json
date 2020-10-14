@@ -1,3 +1,18 @@
 {
-  "admin": ["Administration", "Administration"]
+  "admin": ["Administration", "Administration"],
+  "Error 401: Unauthorized" : ["Error 401: Unauthorized", "Erreur 401 : Non autorisé"],
+  "You don't have the autorization to see this page" : ["You don't have the autorization to see this page", "Vous n'avez pas l'autorisation de voir cette page"],
+  "Please use the connexion page" : ["Please use the connexion page", "Veuillez utiliser la page de connexion"],
+  "Page not found" : ["Page not found", "Page not found"],
+  "We didn't found requested URL:" : ["We didn't found requested URL:", "Nous n'avons pas trouvé l'URL demandée :"],
+  "Internal server error" : ["Internal server error", "Erreur Interne du Serveur"],
+  "The error have been reported to us, we will look into it as soon as possible." : [
+    "The error have been reported to us, we will look into it as soon as possible.",
+    "L'erreur nous a été signalée, nous l'examinerons dans les plus brefs délais."
+  ],
+  "Service Unavailable" : ["Service Unavailable", "Service indisponible"],
+  "Some services are unavailable, probably because they are overloaded. Please try later." : [
+    "Some services are unavailable, probably because they are overloaded. Please try later.",
+    "Certains services ne sont pas disponibles, probablement parce qu'ils sont surchargés. Merci d'essayer plus tard."
+  ]
 }
