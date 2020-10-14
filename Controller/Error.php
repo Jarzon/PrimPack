@@ -18,7 +18,7 @@ class Error extends AbstractController
         503 => 'Service Unavailable'
     ];
 
-    public function __construct($view, array $options = [], Container $container)
+    public function __construct($view, array $options, Container $container)
     {
         parent::__construct($view, $options);
 
