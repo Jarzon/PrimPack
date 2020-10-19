@@ -3,11 +3,12 @@ namespace PrimPack\Controller;
 
 use Prim\AbstractController;
 use Prim\Container;
+use PrimPack\Service\Logger;
 use PrimPack\Service\PDO;
 
 class Error extends AbstractController
 {
-    protected array $messages = [];
+    public Logger $logger;
     public Container $container;
 
     public array $httpErrors = [
@@ -18,10 +19,11 @@ class Error extends AbstractController
         503 => 'Service Unavailable'
     ];
 
-    public function __construct($view, array $options, Container $container)
+    public function __construct($view, array $options, Logger $logger, Container $container)
     {
         parent::__construct($view, $options);
 
+        $this->logger = $logger;
         $this->container = $container;
     }
 
@@ -48,7 +50,7 @@ class Error extends AbstractController
 
         header("HTTP/1.1 $code {$this->httpErrors[$code]}");
 
-        $this->addMessage("HTTP code: $code");
+        $this->logger->addMessage("HTTP code: $code");
 
         // SQL server is down\unreachable
         if($e !== null && get_class($e) === 'PDOException') {
@@ -79,54 +81,47 @@ class Error extends AbstractController
 
     public function logError(\Throwable $e)
     {
-        $this->addMessage('Date: '.date('Y-m-d H:i:s'));
-        $this->addMessage("Uri: {$_SERVER['REQUEST_URI']}");
-        $this->addMessage("IP: {$_SERVER['REMOTE_ADDR']}");
+        $this->logger->addMessage('Date: '.date('Y-m-d H:i:s'));
+        $this->logger->addMessage("Uri: {$_SERVER['REQUEST_URI']}");
+        $this->logger->addMessage("IP: {$_SERVER['REMOTE_ADDR']}");
 
         if($e !== null) {
-            $this->addMessage('Type: '.get_class($e));
+            $this->logger->addMessage('Type: '.get_class($e));
             if(get_class($e) === 'GuzzleHttp\Exception\ClientException') {
-                $this->addMessage("Message: {$e->getResponse()->getBody()->getContents()}");
+                $this->logger->addMessage("Message: {$e->getResponse()->getBody()->getContents()}");
             } else {
-                $this->addMessage("Message: {$e->getMessage()}");
+                $this->logger->addMessage("Message: {$e->getMessage()}");
             }
 
-            $this->addMessage("Finale file: {$e->getFile()}");
-            $this->addMessage("Finale line: {$e->getLine()}");
+            $this->logger->addMessage("Finale file: {$e->getFile()}");
+            $this->logger->addMessage("Finale line: {$e->getLine()}");
 
             $line = $this->getLine($e->getTrace());
 
             if(!empty($line)) {
-                $this->addMessage("File: {$line[0]}");
-                $this->addMessage("Line: {$line[1]}");
+                $this->logger->addMessage("File: {$line[0]}");
+                $this->logger->addMessage("Line: {$line[1]}");
             }
 
             if($e instanceof \PDOException || strpos($e->getMessage(), 'PDO') !== false) {
                 $PDO = $this->container->get('pdo');
 
                 if($PDO instanceof PDO) {
-                    $this->addMessage('Query: ' . $PDO->lastQuery);
-                    $this->addMessage('Params: ' . var_export($PDO->lastParams, true));
+                    $this->logger->addMessage('Query: ' . $PDO->lastQuery);
+                    $this->logger->addMessage('Params: ' . var_export($PDO->lastParams, true));
                 }
             }
         }
 
         if(isset($_SESSION)) {
-            $this->addMessage("Session: " . var_export($_SESSION, true));
+            $this->logger->addMessage("Session: " . var_export($_SESSION, true));
         }
 
         if(isset($_POST)) {
-            $this->addMessage("POST: " . var_export($_POST, true));
+            $this->logger->addMessage("POST: " . var_export($_POST, true));
         }
 
-        $message = implode("\r\n", $this->messages);
-
-        file_put_contents($this->options['root'] . 'data/logs/' . date('Ymd:His') .'_'. strlen($message), $message);
-    }
-
-    public function addMessage(string $message)
-    {
-        $this->messages[] = $message;
+        $this->logger->logMessages();
     }
 
     public function debug($e)
