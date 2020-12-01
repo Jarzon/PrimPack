@@ -9,8 +9,7 @@
     "psr-4": {"Tests\\": "tests/"}
   },
   "require": {
-    "php": ">=7.4.0",
-    "jarzon/prim": "^0.16.0",
-    "ocramius/package-versions": "^1.5"
+    "php": ">=8.0.0",
+    "jarzon/prim": "^0.17.0"
   }
 }

@@ -56,14 +56,7 @@ class Toolbar
 
     public function getVersion(string $package): string
     {
-        $version = Versions::getVersion($package);
-        $separatorPos = strpos($version, '@');
-
-        if($separatorPos !== false) {
-            $version = substr($version, 0, $separatorPos);
-        }
-
-        return $version;
+        return \Composer\InstalledVersions::getVersion($package);
     }
 
     public function addElement($name, callable $func) {
