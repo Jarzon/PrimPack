@@ -27,18 +27,11 @@ class Error extends AbstractController
         $this->container = $container;
     }
 
-    protected function cleanOutput() : bool {
-        $xdebugEnabled = function_exists('xdebug_time_index');
-
-        if($xdebugEnabled) {
-            xdebug_disable();
-        }
-
+    protected function cleanOutput(): void
+    {
         if(ob_get_length() > 0) {
             ob_end_clean();
         }
-
-        return $xdebugEnabled;
     }
 
     /**
