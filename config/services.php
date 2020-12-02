@@ -3,6 +3,9 @@ use Prim\Container;
 use PrimPack\Controller\Admin;
 
 return [
+    PrimPack\Service\Logger::class => function(Container $dic) {
+        return [$dic->options];
+    },
     Admin::class => function(Container $dic) {
         if(!$dic->get('adminService')->isAdmin()) {
             header("HTTP/1.1 403 Forbidden");exit;
