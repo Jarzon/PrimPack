@@ -1,7 +1,6 @@
 <?php
 namespace PrimPack\Service;
 
-use PackageVersions\Versions;
 use Prim\View;
 
 class Toolbar
@@ -44,7 +43,7 @@ class Toolbar
         });
 
         $this->addElement('Version',  function() {
-            return $this->getVersion(Versions::ROOT_PACKAGE_NAME);
+            return $this->getVersion('root');
         });
 
         if($options['db_enable'] && $options['environment'] === 'dev') {
@@ -56,6 +55,7 @@ class Toolbar
 
     public function getVersion(string $package): string
     {
+        if($package === 'root') return exec('git describe --tags `git rev-list --tags --max-count=1`');;
         return \Composer\InstalledVersions::getVersion($package);
     }
 
