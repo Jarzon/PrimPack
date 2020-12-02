@@ -119,13 +119,13 @@ class Error extends AbstractController
 
     public function debug($e)
     {
-        $xdebugEnabled = $this->cleanOutput();
+        $this->cleanOutput();
 
         $this->setTemplate('prim', 'PrimPack');
 
         $this->design('debug', 'PrimPack', [
             'error' => $e,
-            'xdebug' => $xdebugEnabled,
+            'xdebug' => function_exists('xdebug_time_index'),
             'container' => $this->container
         ]);
 
