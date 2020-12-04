@@ -62,40 +62,9 @@ class Error extends AbstractController
         $this->design("errors/$code", 'PrimPack');
     }
 
-    protected function getLine($e) {
-        foreach ($e as $i) {
-            if(isset($i['file']) && isset($i['line']) && isset($i['class']) && strpos($i['class'], $this->options['project_name']) !== false) {
-                return [$i['file'], $i['line']];
-            }
-        }
-
-        return [];
-    }
-
     public function logError(\Throwable $e)
     {
-        $this->logger->addMessage('Date: '.date('Y-m-d H:i:s'));
-        $this->logger->addMessage("Uri: {$_SERVER['REQUEST_URI']}");
-        $this->logger->addMessage("IP: {$_SERVER['REMOTE_ADDR']}");
-
         if($e !== null) {
-            $this->logger->addMessage('Type: '.get_class($e));
-            if(get_class($e) === 'GuzzleHttp\Exception\ClientException') {
-                $this->logger->addMessage("Message: {$e->getResponse()->getBody()->getContents()}");
-            } else {
-                $this->logger->addMessage("Message: {$e->getMessage()}");
-            }
-
-            $this->logger->addMessage("Finale file: {$e->getFile()}");
-            $this->logger->addMessage("Finale line: {$e->getLine()}");
-
-            $line = $this->getLine($e->getTrace());
-
-            if(!empty($line)) {
-                $this->logger->addMessage("File: {$line[0]}");
-                $this->logger->addMessage("Line: {$line[1]}");
-            }
-
             if($e instanceof \PDOException || strpos($e->getMessage(), 'PDO') !== false) {
                 $PDO = $this->container->get('pdo');
 
@@ -104,17 +73,15 @@ class Error extends AbstractController
                     $this->logger->addMessage('Params: ' . var_export($PDO->lastParams, true));
                 }
             }
+
+            if(get_class($e) === GuzzleHttp\Exception\ClientException::class) {
+                $this->logger->addMessage("Message: {$e->getResponse()->getBody()->getContents()}");
+            } else {
+                $this->logger->addMessage("Message: {$e->getMessage()}");
+            }
         }
 
-        if(isset($_SESSION)) {
-            $this->logger->addMessage("Session: " . var_export($_SESSION, true));
-        }
-
-        if(isset($_POST)) {
-            $this->logger->addMessage("POST: " . var_export($_POST, true));
-        }
-
-        $this->logger->logMessages();
+        $this->logger->logError($e);
     }
 
     public function debug($e)
