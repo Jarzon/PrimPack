@@ -55,7 +55,7 @@ class Toolbar
 
     public function getVersion(string $package): string
     {
-        if($package === 'root') return exec('git describe --tags `git rev-list --tags --max-count=1`');;
+        if($package === 'root') $package = \Composer\InstalledVersions::getRootPackage()['name'];
         return \Composer\InstalledVersions::getVersion($package);
     }
 
