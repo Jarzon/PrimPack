@@ -7,9 +7,7 @@ return [
         return [$dic->options];
     },
     Admin::class => function(Container $dic) {
-        if(!$dic->get('adminService')->isAdmin()) {
-            header("HTTP/1.1 403 Forbidden");exit;
-        }
+        $dic->get('userService')->verification(true);
 
         return [];
     },
