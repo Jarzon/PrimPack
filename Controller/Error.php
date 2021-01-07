@@ -45,11 +45,6 @@ class Error extends AbstractController
 
         $this->logger->addMessage("HTTP code: $code");
 
-        // SQL server is down\unreachable
-        if($e !== null && get_class($e) === 'PDOException') {
-            $code = 503;
-        }
-
         if($this->options['debug'] === false && (int)$code === 500) {
             $this->logError($e);
         }
