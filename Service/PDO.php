@@ -41,7 +41,7 @@ class PDO extends \PDO {
 
         $args = func_get_args();
 
-        $this->lastQuery = $args;
+        $this->lastQuery = $query;
         $PDOS = call_user_func_array([&$this->PDO, 'query'], $args);
 
         return new PDOStatement($this, $PDOS);
