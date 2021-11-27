@@ -1,20 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 namespace PrimPack\Service;
 
 class PDOStatement implements \IteratorAggregate {
-    protected object $PDOS;
+    protected \Traversable $PDOS;
     protected PDO $PDOp;
 
-    public function __construct(PDO $PDOp, object $PDOS) {
+    public function __construct(PDO $PDOp, \Traversable $PDOS) {
         $this->PDOp = $PDOp;
         $this->PDOS = $PDOS;
     }
 
-    public function __call($func, $args) {
+    public function __call($func, array $args): mixed
+    {
         return call_user_func_array([&$this->PDOS, $func], $args);
     }
 
-    public function bindColumn($column, &$param, $type = '') {
+    public function bindColumn($column, &$param, $type = ''): void
+    {
         $this->PDOp->lastParams = [$column, $param, $type];
 
         if ($type === '')
@@ -23,7 +25,8 @@ class PDOStatement implements \IteratorAggregate {
             $this->PDOS->bindColumn($column, $param, $type);
     }
 
-    public function bindParam($column, &$param, $type = '') {
+    public function bindParam($column, &$param, $type = ''): void
+    {
         $this->PDOp->lastParams = [$column, $param, $type];
 
         if ($type === '')
@@ -32,7 +35,8 @@ class PDOStatement implements \IteratorAggregate {
             $this->PDOS->bindParam($column, $param, $type);
     }
 
-    public function execute() {
+    public function execute(): mixed
+    {
         $this->PDOp->numExecutes++;
         $args = func_get_args();
 
@@ -41,20 +45,23 @@ class PDOStatement implements \IteratorAggregate {
         return call_user_func_array([&$this->PDOS, 'execute'], $args);
     }
 
-    public function rowCount()
+    public function rowCount(): mixed
     {
         return $this->PDOS->rowCount();
     }
 
-    public function __get($property) {
+    public function __get($property): mixed
+    {
         return $this->PDOS->$property;
     }
 
-    public function getIterator() {
+    public function getIterator(): \Traversable
+    {
         return $this->PDOS;
     }
 
-    public function errorInfo() {
+    public function errorInfo(): mixed
+    {
         return $this->PDOS->errorInfo();
     }
 }
