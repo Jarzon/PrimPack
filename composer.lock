@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "498ea9fd6c2b6d7b1cd3e91a6e0df507",
+    "content-hash": "b4cce14b187aada59817a07e27792e7b",
     "packages": [
         {
             "name": "jarzon/prim",
-            "version": "v0.17.0",
+            "version": "v0.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jarzon/Prim.git",
-                "reference": "e320d6254a896a64651a358394175e031354a46d"
+                "reference": "954243a8f26a343d84c66cb6840119c8328141f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jarzon/Prim/zipball/e320d6254a896a64651a358394175e031354a46d",
-                "reference": "e320d6254a896a64651a358394175e031354a46d",
+                "url": "https://api.github.com/repos/Jarzon/Prim/zipball/954243a8f26a343d84c66cb6840119c8328141f7",
+                "reference": "954243a8f26a343d84c66cb6840119c8328141f7",
                 "shasum": ""
             },
             "require": {
@@ -58,7 +58,7 @@
                 "issues": "https://github.com/jarzon/prim/issues",
                 "source": "https://github.com/jarzon/prim"
             },
-            "time": "2020-12-01T22:55:38+00:00"
+            "time": "2021-07-22T07:03:10+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -121,5 +121,5 @@
         "php": ">=8.0.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
