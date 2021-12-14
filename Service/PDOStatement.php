@@ -45,12 +45,12 @@ class PDOStatement {
         return $this->PDOS->rowCount();
     }
 
-    public function fetch(int $fetch_style = \PDO::FETCH_ASSOC, int $cursor_orientation = \PDO::FETCH_ORI_NEXT, int $cursor_offset = 0): mixed
+    public function fetch(int $fetch_style = \PDO::FETCH_OBJ, int $cursor_orientation = \PDO::FETCH_ORI_NEXT, int $cursor_offset = 0): mixed
     {
         return $this->PDOS->fetch($fetch_style, $cursor_orientation, $cursor_offset);
     }
 
-    public function fetchAll(int $fetch_style = \PDO::FETCH_ASSOC, array ...$ctor_args): mixed
+    public function fetchAll(int $fetch_style = \PDO::FETCH_OBJ, array ...$ctor_args): mixed
     {
         return $this->PDOS->fetchAll($fetch_style, ...$ctor_args);
     }
