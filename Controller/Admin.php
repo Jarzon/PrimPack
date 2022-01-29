@@ -5,7 +5,7 @@ use Prim\AbstractController;
 
 class Admin extends AbstractController
 {
-    public function index()
+    public function index(): void
     {
         $this->render('admin/index', '', [
             'sections' => [
@@ -15,7 +15,7 @@ class Admin extends AbstractController
         ]);
     }
 
-    public function logs()
+    public function logs(): void
     {
         $root = $this->options['root'] . 'data/logs/';
 
@@ -30,7 +30,7 @@ class Admin extends AbstractController
         ]);
     }
 
-    public function showLog($name)
+    public function showLog(string $name): void
     {
         $file = $this->options['root'] . 'data/logs/'.$name;
 
@@ -46,7 +46,7 @@ class Admin extends AbstractController
         ]);
     }
 
-    public function deleteLog($name)
+    public function deleteLog(string $name): void
     {
         $file = $this->options['root'] . 'data/logs/'.$name;
 
