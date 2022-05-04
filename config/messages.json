@@ -1,5 +1,6 @@
 {
   "admin": ["Administration", "Administration"],
+  "Error 400: Bad request" : ["Error 401: Bad request", "Erreur 400 : Mauvaise requête"],
   "Error 401: Unauthorized" : ["Error 401: Unauthorized", "Erreur 401 : Non autorisé"],
   "You don't have the autorization to see this page" : ["You don't have the autorization to see this page", "Vous n'avez pas l'autorisation de voir cette page"],
   "Please use the connexion page" : ["Please use the connexion page", "Veuillez utiliser la page de connexion"],

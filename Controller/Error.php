@@ -12,6 +12,7 @@ class Error extends AbstractController
     public Container $container;
 
     public array $httpErrors = [
+        400 => 'Bad Request',
         401 => 'Unauthorized',
         404 => 'Not Found',
         405 => 'Method Not Allowed',
