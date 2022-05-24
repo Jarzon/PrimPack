@@ -12,6 +12,6 @@ return [
         return [];
     },
     PrimPack\Controller\Error::class => function(Container $dic) {
-        return [$dic->service('logger'), $dic];
+        return [$dic->service('PrimPack\Logger'), $dic];
     },
 ];
