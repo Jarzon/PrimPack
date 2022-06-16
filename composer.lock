@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "92c62ded96fdecfea646189b4807981a",
+    "content-hash": "9d6d0b70e22c3437a6e3a35abda4691e",
     "packages": [
         {
             "name": "jarzon/prim",
-            "version": "v0.19.6",
+            "version": "v0.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jarzon/Prim.git",
-                "reference": "2a11ea6944021043eaa3ffc1a4889252a1f25712"
+                "reference": "606bbaebe02d37e45b3fbc7c86d34fdb24434ed4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jarzon/Prim/zipball/2a11ea6944021043eaa3ffc1a4889252a1f25712",
-                "reference": "2a11ea6944021043eaa3ffc1a4889252a1f25712",
+                "url": "https://api.github.com/repos/Jarzon/Prim/zipball/606bbaebe02d37e45b3fbc7c86d34fdb24434ed4",
+                "reference": "606bbaebe02d37e45b3fbc7c86d34fdb24434ed4",
                 "shasum": ""
             },
             "require": {
@@ -27,8 +27,11 @@
             },
             "require-dev": {
                 "mikey179/vfsstream": "1.6.x",
-                "phpstan/phpstan": "~1.4.0",
-                "phpunit/phpunit": "~9.4.0"
+                "phpstan/phpstan": "~1.7.14",
+                "phpunit/phpunit": "~9.5.0"
+            },
+            "suggest": {
+                "jarzon/primpack": "~v1.16.8"
             },
             "bin": [
                 "bin/prim"
@@ -58,7 +61,7 @@
                 "issues": "https://github.com/jarzon/prim/issues",
                 "source": "https://github.com/jarzon/prim"
             },
-            "time": "2022-05-24T03:11:08+00:00"
+            "time": "2022-06-16T02:18:21+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -159,16 +162,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.7.0",
+            "version": "1.7.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "509b3d6da631de31494dc21adedb30d73970e5aa"
+                "reference": "e6f145f196a59c7ca91ea926c87ef3d936c4305f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/509b3d6da631de31494dc21adedb30d73970e5aa",
-                "reference": "509b3d6da631de31494dc21adedb30d73970e5aa",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e6f145f196a59c7ca91ea926c87ef3d936c4305f",
+                "reference": "e6f145f196a59c7ca91ea926c87ef3d936c4305f",
                 "shasum": ""
             },
             "require": {
@@ -194,7 +197,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.7.0"
+                "source": "https://github.com/phpstan/phpstan/tree/1.7.14"
             },
             "funding": [
                 {
@@ -214,7 +217,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-23T15:11:29+00:00"
+            "time": "2022-06-14T13:09:35+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -273,7 +276,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.0.0"
+        "php": ">=8.1.0"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
