@@ -3,26 +3,27 @@ namespace PrimPack\Service;
 
 class Logger
 {
-    protected array $options = [];
     protected array $messages = [];
 
-    public function __construct(array $options) {
-        $this->options = $options;
+    public function __construct(protected array $options) {
+
     }
 
-    public function addMessage(string $message)
+    public function addMessage(string $message): Logger
     {
         $this->messages[] = $message;
+
+        return $this;
     }
 
-    public function logMessages()
+    public function logMessages(): void
     {
         $message = implode("\r\n", $this->messages);
 
         file_put_contents($this->options['root'] . 'data/logs/' . date('Ymd:His') . '_'. strlen($message), $message);
     }
 
-    public function logError(\Throwable $e)
+    public function logError(\Throwable $e = null): void
     {
         $this->addMessage('Date: '.date('Y-m-d H:i:s'));
         $this->addMessage("Uri: {$_SERVER['REQUEST_URI']}");
@@ -42,18 +43,18 @@ class Logger
             }
         }
 
-        if(isset($_SESSION)) {
+        if(!empty($_SESSION)) {
             $this->addMessage("Session: " . var_export($_SESSION, true));
         }
 
-        if(isset($_POST)) {
+        if(!empty($_POST)) {
             $this->addMessage("POST: " . var_export($_POST, true));
         }
 
         $this->logMessages();
     }
 
-    protected function getLine($e)
+    protected function getLine($e): array
     {
         foreach ($e as $i) {
             if(isset($i['file']) && isset($i['line']) && isset($i['class']) && strpos($i['class'], $this->options['project_name']) !== false) {
