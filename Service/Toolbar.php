@@ -1,18 +1,20 @@
 <?php
 namespace PrimPack\Service;
 
+use Prim\Container;
 use Prim\View;
 
 class Toolbar
 {
     protected View $view;
+    protected Container $container;
     public array $elements = [];
     protected array $options = [];
 
-    public function __construct(View $view, $pdo, array $options = [])
+    public function __construct(View $view, Container $container, array $options = [])
     {
         $this->view = $view;
-        $this->pdo = $pdo;
+        $this->container = $container;
 
         $this->options = $options += [
             'root' => '',
@@ -48,7 +50,7 @@ class Toolbar
 
         if($options['db_enable'] && $options['environment'] === 'dev') {
             $this->addElement('PDO', function() {
-                return "{$this->pdo->numExecutes} / {$this->pdo->numStatements}";
+                return "{$this->container->get('pdo')->numExecutes} / {$this->container->get('pdo')->numStatements}";
             });
         }
     }
