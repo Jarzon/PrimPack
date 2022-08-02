@@ -38,7 +38,7 @@ class Error extends AbstractController
     /**
      * This method handles the error page that will be shown when a page is not found
      */
-    public function handleError($code, $allowedMethods = '', $e = null)
+    public function handleError(int $code, $allowedMethods = '', $e = null)
     {
         $this->cleanOutput();
 
@@ -46,13 +46,18 @@ class Error extends AbstractController
 
         $this->logger->addMessage("HTTP code: $code");
 
-        if($this->options['debug'] === false && (int)$code === 500) {
-            $this->logError($e);
-        }
-
-        if ($code === 405) {
-            header('Allow: '. implode(', ', $allowedMethods));
-            $code = 404;
+        if($this->options['debug'] === false) {
+            if($code === 500) {
+                $this->logError($e);
+            }
+            else if ($code === 404 && isset($_SESSION['user_id'])) {
+                $this->logError(throw new \Exception("Missing page: {$_SERVER['REQUEST_URI']}"));
+            }
+            else if ($code === 405) {
+                header('Allow: '. implode(', ', $allowedMethods));
+                $code = 404;
+                if(isset($_SESSION['user_id'])) $this->logError(throw new \Exception("Method not allowed: {$_SERVER['REQUEST_METHOD']} {$_SERVER['REQUEST_URI']}"));
+            }
         }
 
         $this->design("errors/$code", 'PrimPack');
