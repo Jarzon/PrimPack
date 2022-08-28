@@ -5,9 +5,8 @@ class PDO {
     protected \PDO $PDO;
     public int $numExecutes = 0;
     public int $numStatements = 0;
-    public array|string $lastQuery;
+    public array $queries = [];
     public PDOStatement $lastStatement;
-    public array $lastParams = [];
 
     const FETCH_GROUP = \PDO::FETCH_GROUP;
     const FETCH_UNIQUE = \PDO::FETCH_UNIQUE;
@@ -25,7 +24,6 @@ class PDO {
     const FETCH_SERIALIZE = \PDO::FETCH_SERIALIZE;
     const FETCH_PROPS_LATE = \PDO::FETCH_PROPS_LATE;
 
-
     public function __construct(string $dsn, ?string $user = '', ?string $pass = '', ?array $driver_options = []) {
         $driver_options += [
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
@@ -41,9 +39,16 @@ class PDO {
     {
         $this->numStatements++;
 
-        $this->lastQuery = $query;
-
         $args = func_get_args();
+        $stackTrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        $file = '';
+        foreach ($stackTrace as $st) {
+            if(str_contains($st['class'], 'Model')) {
+                $file = $st['class'] . "::" . $st['function'];
+                break;
+            }
+        }
+        $this->queries[] = [$file, $query];
         $PDOS = call_user_func_array([&$this->PDO, 'prepare'], $args);
 
         $statement = new PDOStatement($this, $PDOS);
@@ -60,7 +65,15 @@ class PDO {
 
         $args = func_get_args();
 
-        $this->lastQuery = $query;
+        $stackTrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        $file = '';
+        foreach ($stackTrace as $st) {
+            if(str_contains($st['class'], 'Model')) {
+                $file = $st['class'] . "::" . $st['function'];
+                break;
+            }
+        }
+        $this->queries[] = [$file, $query];
         $PDOS = call_user_func_array([&$this->PDO, 'query'], $args);
 
         return new PDOStatement($this, $PDOS);
@@ -72,8 +85,6 @@ class PDO {
         $this->numStatements++;
 
         $args = func_get_args();
-
-        $this->lastQuery = $args;
 
         return call_user_func_array([&$this->PDO, 'exec'], $args);
     }

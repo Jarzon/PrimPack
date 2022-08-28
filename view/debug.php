@@ -1,5 +1,9 @@
 <?php
-/** @var $error Throwable */
+/**
+ * @var $error Throwable
+ * @var $container \Prim\Container
+ * @var $PDO \PrimPack\Service\PDO
+ */
 ?>
 <div class="debug">
     <h2>An error occured:</h2>
@@ -9,12 +13,15 @@
 
     <?php if(strpos(get_class($error), 'PDO') !== false): ?>
         <?php $PDO = $container->get('pdo');
-        if(isset($PDO->lastQuery)):?>
+        if(!empty($PDO->queries)):
+            $lastQuery = $PDO->queries[array_key_last($PDO->queries)];?>
             <h3>Query:</h3>
-            <div class="sql"><?=nl2br($PDO->lastQuery)?></div>
+            <div class="sql"><?=nl2br($lastQuery[1])?></div>
 
+            <?php if(!empty($lastQuery[2])): ?>
             <h3>Params:</h3>
-            <div class="params"><?=var_export($PDO->lastParams)?></div>
+            <div class="params"><?=var_export($lastQuery[2], true)?></div>
+        <?php endif; ?>
         <?php endif; ?>
     <?php endif; ?>
 

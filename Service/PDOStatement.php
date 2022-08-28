@@ -12,7 +12,7 @@ class PDOStatement {
 
     public function bindColumn(string|int $column, mixed &$param, int $type = \PDO::PARAM_STR): void
     {
-        $this->PDOp->lastParams = [$column, $param, $type];
+        $this->PDOp->queries[array_key_last($this->PDOp->queries)][2][] = $args;
 
         if ($type === \PDO::PARAM_STR)
             $this->PDOS->bindColumn($column, $param);
@@ -22,7 +22,7 @@ class PDOStatement {
 
     public function bindParam(string|int $column, mixed &$param, int $type): void
     {
-        $this->PDOp->lastParams = [$column, $param, $type];
+        $this->PDOp->queries[array_key_last($this->PDOp->queries)][2][] = $args;
 
         if ($type === 0)
             $this->PDOS->bindParam($column, $param);
@@ -35,7 +35,11 @@ class PDOStatement {
         $this->PDOp->numExecutes++;
         $args = func_get_args();
 
-        $this->PDOp->lastParams = empty($args)? []: $args;
+        $this->PDOp->queries[array_key_last($this->PDOp->queries)][2][] = $args;
+        foreach ($args[0] as $index => $arg) {
+            $type = htmlentities(var_export($arg, true));
+            $this->PDOp->queries[array_key_last($this->PDOp->queries)][1] = str_replace($index, "<b title='$type'>$index</b>", $this->PDOp->queries[array_key_last($this->PDOp->queries)][1]);
+        }
 
         return call_user_func_array([&$this->PDOS, 'execute'], $args);
     }

@@ -21,8 +21,17 @@ class Toolbar
             'db_enable' => false
         ];
 
-        $this->addElement('Prim',  function() {});
-        $this->addElement('Version',  function() {});
+        $this->addElement('',  function() {
+            return $this->getVersion('jarzon/prim');
+        });
+
+        $this->addElement($this->options['project_name'] ?? 'Project version',  function() {
+            return $this->getVersion('root');
+        });
+
+        $this->addElement('Env',  function() {
+            return $this->options['environment'];
+        });
 
         $this->addElement('Time',  function() {
             return substr(round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 3), 2) . ' ms';
@@ -36,21 +45,17 @@ class Toolbar
             return $this->elements;
         });
 
-        $this->addElement('Prim',  function() {
-            return $this->getVersion('jarzon/prim');
-        });
-
-        $this->addElement('Env',  function() {
-            return $this->options['environment'];
-        });
-
-        $this->addElement('Version',  function() {
-            return $this->getVersion('root');
-        });
-
         if($options['db_enable'] && $options['environment'] === 'dev') {
             $this->addElement('PDO', function() {
-                return "{$this->container->get('pdo')->numExecutes} / {$this->container->get('pdo')->numStatements}";
+                $output = '';
+                foreach ($this->container->get('pdo')->queries as $query) {
+                    $args = var_export($query[2], true);
+
+                    $args = preg_replace("/ /m", "&nbsp;", $args);
+
+                    $output .= "<details><summary>$query[0]</summary><details><summary>$query[1]</summary><pre>$args</pre></details></details>";
+                }
+                return "<details><summary>{$this->container->get('pdo')->numExecutes} / {$this->container->get('pdo')->numStatements}</summary><pre>$output</pre></details>";
             });
         }
     }
