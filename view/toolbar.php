@@ -42,6 +42,14 @@
         background: #111;
     }
 
+    .PDO {
+        clear: both;
+    }
+
+    .PDO details:nth-child(even) {
+        background: #111;
+    }
+
     @media print {
         .primToolbar {
             display: none;
@@ -51,6 +59,6 @@
 <details class="primToolbar">
     <summary>Prim console</summary>
     <?php foreach ($_getToolbar() as $name => $callback): ?>
-        <div><?=$name?> <?=$callback()?></div>
+        <div class="<?=$name?>"><?=$name?> <?=$callback()?></div>
     <?php endforeach; ?>
 </details>
