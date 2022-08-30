@@ -55,7 +55,7 @@ class Toolbar
 
                     $output .= "<details><summary>$query[0]</summary><details><summary>$query[1]</summary><pre>$args</pre></details></details>";
                 }
-                return "<details><summary>{$this->container->get('pdo')->numExecutes} / {$this->container->get('pdo')->numStatements}</summary><pre>$output</pre></details>";
+                return "{$this->container->get('pdo')->numExecutes} / {$this->container->get('pdo')->numStatements}<br>$output";
             });
         }
     }

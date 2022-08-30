@@ -34,20 +34,25 @@
         float: left;
         margin: 5px 5px 0 20px;
         min-width: 110px;
-        max-width: 99%;
-        overflow: auto;
     }
 
     .primToolbar b {
-        background: #111;
+        background: #eee;
+        color: #000;
     }
 
     .PDO {
         clear: both;
+        max-width: 90%;
     }
 
-    .PDO details:nth-child(even) {
-        background: #111;
+    .PDO details {
+        overflow: auto;
+        padding: 5px;
+    }
+
+    .PDO > details:nth-child(even) {
+        background: #222;
     }
 
     @media print {
