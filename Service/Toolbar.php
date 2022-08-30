@@ -49,11 +49,18 @@ class Toolbar
             $this->addElement('PDO', function() {
                 $output = '';
                 foreach ($this->container->get('pdo')->queries as $query) {
-                    $args = var_export($query[2], true);
+                    $output .= "<details><summary>$query[0]</summary>";
 
-                    $args = preg_replace("/ /m", "&nbsp;", $args);
+                    if($query[2] === [[[]]]) {
+                        $output .= "$query[1]";
+                    } else {
+                        $args = var_export($query[2], true);
+                        $args = preg_replace("/ /m", "&nbsp;", $args);
 
-                    $output .= "<details><summary>$query[0]</summary><details><summary>$query[1]</summary><pre>$args</pre></details></details>";
+                        $output .= "<details><summary>$query[1]</summary><pre>$args</pre></details>";
+                    }
+
+                    $output .= "</details>";
                 }
                 return "{$this->container->get('pdo')->numExecutes} / {$this->container->get('pdo')->numStatements}<br>$output";
             });
