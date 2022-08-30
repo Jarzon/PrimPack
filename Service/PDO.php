@@ -48,6 +48,7 @@ class PDO {
                 break;
             }
         }
+        unset($stackTrace);
         $this->queries[] = [$file, $query];
         $PDOS = call_user_func_array([&$this->PDO, 'prepare'], $args);
 
@@ -73,6 +74,7 @@ class PDO {
                 break;
             }
         }
+        unset($stackTrace);
         $this->queries[] = [$file, $query];
         $PDOS = call_user_func_array([&$this->PDO, 'query'], $args);
 

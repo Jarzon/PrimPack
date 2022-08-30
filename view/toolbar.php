@@ -8,7 +8,9 @@
         color: #eee;
         z-index: 999;
         max-width: 100%;
+        max-height: 100%;
         padding: 5px;
+        overflow: auto;
     }
 
     .primToolbar[open] {
@@ -27,7 +29,7 @@
         padding: 5px;
         background: #222;
         text-align: center;
-        width: 100%;
+    calc(100% - 10px)
     }
 
     .primToolbar div {
@@ -41,7 +43,7 @@
         color: #000;
     }
 
-    .PDO {
+    .PDO, .DEBUG {
         clear: both;
         max-width: 90%;
     }
