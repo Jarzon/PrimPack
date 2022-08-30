@@ -38,7 +38,7 @@ class PDOStatement {
         $this->PDOp->queries[array_key_last($this->PDOp->queries)][2][] = $args;
         foreach ($args[0] as $index => $arg) {
             $type = htmlentities(var_export($arg, true));
-            $this->PDOp->queries[array_key_last($this->PDOp->queries)][1] = str_replace($index, "<b title='$type'>$index</b>", $this->PDOp->queries[array_key_last($this->PDOp->queries)][1]);
+            $this->PDOp->queries[array_key_last($this->PDOp->queries)][1] = str_replace("$index", "<b title='$type'>$index</b>", $this->PDOp->queries[array_key_last($this->PDOp->queries)][1]);
         }
 
         return call_user_func_array([&$this->PDOS, 'execute'], $args);
