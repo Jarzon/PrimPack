@@ -65,7 +65,10 @@
 </style>
 <details class="primToolbar">
     <summary>Prim console</summary>
-    <?php foreach ($_getToolbar() as $name => $callback): ?>
-        <div class="<?=$name?>"><?=$name?> <?=$callback()?></div>
+    <?php foreach ($_getToolbar() as $name => $callback):
+        $output = $callback();
+        if($output === '') continue;
+        ?>
+        <div class="<?=$name?>"><?=$name?> <?=$output?></div>
     <?php endforeach; ?>
 </details>
