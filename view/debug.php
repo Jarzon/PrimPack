@@ -39,3 +39,4 @@
         </div>
     <?php endforeach; ?>
 </div>
+<?=(isset($_getToolbar) AND $this->insert('toolbar', 'PrimPack'))?>
