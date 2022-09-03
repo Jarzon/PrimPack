@@ -51,7 +51,7 @@ class Toolbar
                 foreach ($this->container->get('pdo')->queries as $query) {
                     $output .= "<details><summary>$query[0]</summary>";
 
-                    if($query[2] === [[[]]]) {
+                    if(!isset($query[2]) || $query[2] === [[[]]]) {
                         $output .= "$query[1]";
                     } else {
                         $args = var_export($query[2], true);

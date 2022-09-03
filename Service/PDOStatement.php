@@ -12,8 +12,6 @@ class PDOStatement {
 
     public function bindColumn(string|int $column, mixed &$param, int $type = \PDO::PARAM_STR): void
     {
-        $this->PDOp->queries[array_key_last($this->PDOp->queries)][2][] = $args;
-
         if ($type === \PDO::PARAM_STR)
             $this->PDOS->bindColumn($column, $param);
         else
@@ -22,8 +20,6 @@ class PDOStatement {
 
     public function bindParam(string|int $column, mixed &$param, int $type): void
     {
-        $this->PDOp->queries[array_key_last($this->PDOp->queries)][2][] = $args;
-
         if ($type === 0)
             $this->PDOS->bindParam($column, $param);
         else
