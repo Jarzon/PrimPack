@@ -52,7 +52,8 @@ class Error extends AbstractController
             }
             else if ($code === 404 && isset($_SESSION['user_id']) && $_SERVER['REQUEST_URI'] !== '/favicon.ico') {
                 if(isset($_SERVER['HTTP_REFERER'])) $this->logger->addMessage("Referer: {$_SERVER['HTTP_REFERER']}");
-                $this->logError(throw new \Exception("Missing page: {$_SERVER['REQUEST_URI']}"));
+                $this->logger->addMessage("Missing page: {$_SERVER['REQUEST_URI']}");
+                $this->logger->logError(NULL);
             }
             else if ($code === 405) {
                 header('Allow: '. implode(', ', $allowedMethods));
