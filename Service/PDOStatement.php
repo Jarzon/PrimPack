@@ -60,6 +60,11 @@ class PDOStatement {
         return $this->PDOS->fetchColumn($column_number);
     }
 
+    public function fetchObject(string $class): mixed
+    {
+        return $this->PDOS->fetchObject($class);
+    }
+
     public function setFetchMode(int $mode, string $class): bool {
         return $this->PDOS->setFetchMode($mode, $class);
     }
