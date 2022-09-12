@@ -50,7 +50,7 @@ class PDOStatement {
         return $this->PDOS->fetch($fetch_style, $cursor_orientation, $cursor_offset);
     }
 
-    public function fetchAll(int $fetch_style = \PDO::FETCH_OBJ, array ...$ctor_args): mixed
+    public function fetchAll(int $fetch_style = \PDO::FETCH_OBJ, ...$ctor_args): mixed
     {
         return $this->PDOS->fetchAll($fetch_style, ...$ctor_args);
     }
