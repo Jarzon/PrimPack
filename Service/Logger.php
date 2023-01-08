@@ -3,10 +3,16 @@ namespace PrimPack\Service;
 
 class Logger
 {
+    protected string $type = 'err';
     protected array $messages = [];
 
-    public function __construct(protected array $options) {
+    public function __construct(protected array $options) {}
 
+    public function type(string $type): Logger
+    {
+        $this->type = $type;
+
+        return $this;
     }
 
     public function addMessage(string $message): Logger
@@ -20,7 +26,7 @@ class Logger
     {
         $message = implode("\r\n", $this->messages);
 
-        file_put_contents($this->options['root'] . 'data/logs/' . date('Ymd:His') . '_'. strlen($message), $message);
+        file_put_contents($this->options['root'] . 'data/logs/' . $this->type. '_' . date('Ymd:His') . '_'. strlen($message), $message);
     }
 
     public function logError(\Throwable $e = null): void
