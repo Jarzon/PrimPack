@@ -5,6 +5,7 @@ use Prim\AbstractController;
 use Prim\Container;
 use PrimPack\Service\Logger;
 use PrimPack\Service\PDO;
+use Throwable;
 
 class Error extends AbstractController
 {
@@ -38,7 +39,7 @@ class Error extends AbstractController
     /**
      * This method handles the error page that will be shown when a page is not found
      */
-    public function handleError(int $code, $allowedMethods = '', $e = null)
+    public function handleError(int $code, string $allowedMethods = '', Throwable $e = null): void
     {
         $this->cleanOutput();
 
@@ -51,43 +52,48 @@ class Error extends AbstractController
                 $this->logError($e);
             }
             else if ($code === 404 && isset($_SESSION['user_id']) && $_SERVER['REQUEST_URI'] !== '/favicon.ico') {
-                if(isset($_SERVER['HTTP_REFERER'])) $this->logger->addMessage("Referer: {$_SERVER['HTTP_REFERER']}");
+                if(isset($_SERVER['HTTP_REFERER'])) {
+                    $this->logger->addMessage("Referer: {$_SERVER['HTTP_REFERER']}");
+                }
                 $this->logger->addMessage("Uri: {$_SERVER['REQUEST_URI']}");
                 $this->logger->logError(NULL);
             }
-            else if ($code === 405) {
-                header('Allow: '. implode(', ', $allowedMethods));
-                $code = 404;
-                if(isset($_SESSION['user_id'])) $this->logError(throw new \Exception("Method not allowed: {$_SERVER['REQUEST_METHOD']} {$_SERVER['REQUEST_URI']}"));
+            else {
+                if ($code === 405) {
+                    header('Allow: ' . implode(', ', $allowedMethods));
+                    $code = 404;
+                    if (isset($_SESSION['user_id'])) {
+                        $this->logError(throw new \Exception("Method not allowed: {$_SERVER['REQUEST_METHOD']} {$_SERVER['REQUEST_URI']}"));
+                    }
+                }
             }
         }
 
         $this->design("errors/$code", 'PrimPack');
     }
 
-    public function logError(\Throwable $e)
+    public function logError(Throwable $e): void
     {
-        if($e !== null) {
-            if($e instanceof \PDOException || strpos($e->getMessage(), 'PDO') !== false) {
-                $PDO = $this->container->get('pdo');
+        if($e instanceof \PDOException || str_contains($e->getMessage(), 'PDO')) {
+            $PDO = $this->container->get('pdo');
 
-                if($PDO instanceof PDO) {
-                    $this->logger->addMessage('Query: ' . $PDO->lastQuery);
-                    $this->logger->addMessage('Params: ' . var_export($PDO->lastParams, true));
-                }
-            }
-
-            if(get_class($e) === GuzzleHttp\Exception\ClientException::class) {
-                $this->logger->addMessage("Message: {$e->getResponse()->getBody()->getContents()}");
-            } else {
-                $this->logger->addMessage("Message: {$e->getMessage()}");
+            if($PDO instanceof PDO) {
+                $this->logger->addMessage('Query: ' . $PDO->lastQuery);
+                $this->logger->addMessage('Params: ' . var_export($PDO->lastParams, true));
             }
         }
+
+        if($e instanceof GuzzleHttp\Exception\ClientException) {
+            $this->logger->addMessage("Message: {$e->getResponse()->getBody()->getContents()}");
+        } else {
+            $this->logger->addMessage("Message: {$e->getMessage()}");
+        }
+
 
         $this->logger->logError($e);
     }
 
-    public function debug($e)
+    public function debug(Throwable $e): void
     {
         $this->cleanOutput();
 
