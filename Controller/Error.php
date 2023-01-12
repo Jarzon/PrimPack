@@ -39,7 +39,7 @@ class Error extends AbstractController
     /**
      * This method handles the error page that will be shown when a page is not found
      */
-    public function handleError(int $code, string $allowedMethods = '', Throwable $e = null): void
+    public function handleError(int $code, array $allowedMethods = [], Throwable $e = null): void
     {
         $this->cleanOutput();
 
@@ -47,25 +47,21 @@ class Error extends AbstractController
 
         $this->logger->addMessage("HTTP code: $code");
 
-        if($this->options['debug'] === false) {
-            if($code === 500) {
-                $this->logError($e);
+        if($this->options['debug'] === false && $code === 500) {
+            $this->logError($e);
+        }
+        else if ($this->options['debug'] === false && $code === 404 && isset($_SESSION['user_id']) && $_SERVER['REQUEST_URI'] !== '/favicon.ico') {
+            if(isset($_SERVER['HTTP_REFERER'])) {
+                $this->logger->addMessage("Referer: {$_SERVER['HTTP_REFERER']}");
             }
-            else if ($code === 404 && isset($_SESSION['user_id']) && $_SERVER['REQUEST_URI'] !== '/favicon.ico') {
-                if(isset($_SERVER['HTTP_REFERER'])) {
-                    $this->logger->addMessage("Referer: {$_SERVER['HTTP_REFERER']}");
-                }
-                $this->logger->addMessage("Uri: {$_SERVER['REQUEST_URI']}");
-                $this->logger->logError(NULL);
-            }
-            else {
-                if ($code === 405) {
-                    header('Allow: ' . implode(', ', $allowedMethods));
-                    $code = 404;
-                    if (isset($_SESSION['user_id'])) {
-                        $this->logError(throw new \Exception("Method not allowed: {$_SERVER['REQUEST_METHOD']} {$_SERVER['REQUEST_URI']}"));
-                    }
-                }
+            $this->logger->addMessage("Uri: {$_SERVER['REQUEST_URI']}");
+            $this->logger->logError(NULL);
+        }
+        else if ($code === 405) {
+            header('Allow: ' . implode(', ', $allowedMethods));
+            $code = 404;
+            if (isset($_SESSION['user_id'])) {
+                $this->logError(throw new \Exception("Method not allowed: {$_SERVER['REQUEST_METHOD']} {$_SERVER['REQUEST_URI']}"));
             }
         }
 
