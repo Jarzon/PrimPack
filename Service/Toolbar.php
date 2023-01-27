@@ -66,14 +66,16 @@ class Toolbar
             });
         }
 
-        $this->addElement('DEBUG', function() {
-            $output = '';
-            foreach ($GLOBALS['primDebug'] as $debug) {
-                $output .= "<details><summary>$debug[0]</summary><pre>$debug[1]</pre></details>";
-            }
+        if(isset($GLOBALS['primDebug'])) {
+            $this->addElement('DEBUG', function() {
+                $output = '';
+                foreach ($GLOBALS['primDebug'] as $debug) {
+                    $output .= "<details><summary>$debug[0]</summary><pre>$debug[1]</pre></details>";
+                }
 
-            return $output;
-        });
+                return $output;
+            });
+        }
     }
 
     public function getVersion(string $package): string
