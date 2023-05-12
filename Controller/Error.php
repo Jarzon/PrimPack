@@ -74,8 +74,7 @@ class Error extends AbstractController
             $PDO = $this->container->get('pdo');
 
             if($PDO instanceof PDO) {
-                $this->logger->addMessage('Query: ' . $PDO->lastQuery);
-                $this->logger->addMessage('Params: ' . var_export($PDO->lastParams, true));
+                $this->logger->addMessage('Query: ' . $PDO->queries[array_key_last($PDO->queries)][1]);
             }
         }
 
