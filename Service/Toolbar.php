@@ -34,7 +34,7 @@ class Toolbar
         });
 
         $this->addElement('Time',  function() {
-            return substr(round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 3), 2) . ' ms';
+            return $this->formatTime(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 3);
         });
 
         $this->addElement('Memory',  function() {
@@ -99,5 +99,16 @@ class Toolbar
         $bytes /= pow(1024, $pow);
 
         return round($bytes, $precision) . ' ' . $units[$pow];
+    }
+
+    protected function formatTime(float $time, $precision = 3) {
+        if($time < 1) {
+            $time = round($time * 1000) . " ms";
+        }
+        else {
+            $time = round($time, $precision) . " s";
+        }
+
+        return $time;
     }
 }
