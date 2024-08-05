@@ -29,7 +29,7 @@
         padding: 5px;
         background: #222;
         text-align: center;
-    calc(100% - 10px)
+        calc(100% - 10px);
     }
 
     .primToolbar div {
