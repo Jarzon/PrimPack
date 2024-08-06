@@ -1,6 +1,6 @@
 <style>
     .primToolbar {
-        font-size: 20px;
+        font-size: 22px;
         position: fixed;
         bottom: 0;
         left: 20px;
@@ -36,8 +36,7 @@
 
     .primToolbar div {
         float: left;
-        margin: 5px 5px 0 20px;
-        min-width: 110px;
+        margin: 10px 20px;
     }
 
     .primToolbar b {
@@ -48,11 +47,12 @@
     .PDO, .DEBUG {
         clear: both;
         width: 100%;
+        margin: 20px 0 0 !important;
     }
 
     .PDO details {
         overflow: auto;
-        padding: 5px;
+        padding: 10px;
     }
 
     .PDO > details:nth-child(even) {
