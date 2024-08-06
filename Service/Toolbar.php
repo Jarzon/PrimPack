@@ -41,6 +41,18 @@ class Toolbar
             return $this->formatBytes(memory_get_usage()) . ' - ' . $this->formatBytes(memory_get_peak_usage()) . ' / ' . $this->formatBytes(memory_get_peak_usage(true));
         });
 
+        $this->addElement('Stats', function() {
+            $stats = [];
+
+            if($this->container->exists('localizationService')) {
+                $stats[] = count($this->container->get('localizationService')->messages) . ' messages';
+            }
+
+            $stats[] = $this->container->get('router')->getRoutesCount() . ' routes';
+
+            return ': ' . implode(' - ', $stats);
+        });
+
         $this->view->registerFunction('_getToolbar', function() {
             return $this->elements;
         });

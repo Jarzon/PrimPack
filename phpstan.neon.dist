@@ -1,0 +1,11 @@
+parameters:
+    level: 5
+    paths:
+        - %currentWorkingDirectory%/
+    excludePaths:
+        - %currentWorkingDirectory%/vendor/
+        - %currentWorkingDirectory%/config/
+        - %currentWorkingDirectory%/view/
+
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon

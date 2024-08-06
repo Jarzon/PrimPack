@@ -78,12 +78,13 @@ class Error extends AbstractController
             }
         }
 
+        /** @phpstan-ignore class.notFound */
         if($e instanceof GuzzleHttp\Exception\ClientException) {
+            /** @phpstan-ignore class.notFound */
             $this->logger->addMessage("Message: {$e->getResponse()->getBody()->getContents()}");
         } else {
             $this->logger->addMessage("Message: {$e->getMessage()}");
         }
-
 
         $this->logger->logError($e);
     }

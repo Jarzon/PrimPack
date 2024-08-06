@@ -23,13 +23,15 @@
     .primToolbar > summary {
         float: left;
         text-indent: 5px;
+        user-select: none;
+        cursor: pointer;
     }
 
     .primToolbar[open] > summary {
         padding: 5px;
         background: #222;
         text-align: center;
-        calc(100% - 10px);
+        width: calc(100% - 10px);
     }
 
     .primToolbar div {
@@ -45,7 +47,7 @@
 
     .PDO, .DEBUG {
         clear: both;
-        max-width: 90%;
+        width: 100%;
     }
 
     .PDO details {
