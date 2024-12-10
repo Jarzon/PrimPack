@@ -32,8 +32,8 @@ class Logger
     public function logError(\Throwable $e = null): void
     {
         $this->addMessage('Date: '.date('Y-m-d H:i:s'));
-        $this->addMessage("Uri: {$_SERVER['REQUEST_URI']}");
-        $this->addMessage("IP: {$_SERVER['REMOTE_ADDR']}");
+        if(isset($_SERVER['REQUEST_URI'])) $this->addMessage("Uri: {$_SERVER['REQUEST_URI']}");
+        if(isset($_SERVER['REMOTE_ADDR'])) $this->addMessage("IP: {$_SERVER['REMOTE_ADDR']}");
 
         if($e !== null) {
             $this->addMessage('Type: '.get_class($e));
