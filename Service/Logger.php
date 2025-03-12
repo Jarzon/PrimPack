@@ -29,7 +29,7 @@ class Logger
         file_put_contents($this->options['root'] . 'data/logs/' . $this->type. '_' . date('Ymd:His') . '_'. strlen($message), $message);
     }
 
-    public function logError(\Throwable $e = null): void
+    public function logError(\Throwable|null $e = null): void
     {
         $this->addMessage('Date: '.date('Y-m-d H:i:s'));
         if(isset($_SERVER['REQUEST_URI'])) $this->addMessage("Uri: {$_SERVER['REQUEST_URI']}");

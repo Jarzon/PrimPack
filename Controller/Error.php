@@ -39,7 +39,7 @@ class Error extends AbstractController
     /**
      * This method handles the error page that will be shown when a page is not found
      */
-    public function handleError(int $code, array $allowedMethods = [], Throwable $e = null): void
+    public function handleError(int $code, array $allowedMethods = [], Throwable|null $e = null): void
     {
         $this->cleanOutput();
 

@@ -59,7 +59,7 @@ class PDO {
         return $statement;
     }
 
-    public function query(string $query, ?int $fetch_mode = null, mixed ...$fetch_mode_args): PDOStatement|false
+    public function query(string $query, int|null $fetch_mode = null, mixed ...$fetch_mode_args): PDOStatement|false
     {
         $this->numExecutes++;
         $this->numStatements++;
