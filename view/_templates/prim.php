@@ -99,5 +99,9 @@
         <main role="main">
             <?= $this->section('default') ?>
         </main>
+
+        <?php if($this->options['environment'] === 'dev'): ?>
+            <script src="<?=$this->fileCache('/js/dev.js')?>"></script>
+        <?php endif; ?>
     </body>
 </html>

@@ -1,0 +1,9 @@
+{
+  "js": {
+    "files": {
+      "dev.js": [
+        "vendor/jarzon/primpack/assets/js/dev.js"
+      ]
+    }
+  }
+}
