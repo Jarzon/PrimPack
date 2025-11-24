@@ -17,6 +17,8 @@ async function checkUpdates() {
 
         if (lastModified[url] && lastModified[url] !== mod) {
             console.log(`[dev-reload] Change detected in: ${url}`);
+
+            // make sure PHP config opcache.revalidate_freq is at 0
             location.reload();
             return;
         }
