@@ -6,9 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     const lastModified = {};
-    let currentIndex = 0;
 
-    async function checkUpdates() {
+    async function checkUpdates(currentIndex) {
         if(currentIndex === -1) return;
         const url = urls[currentIndex];
 
@@ -35,7 +34,11 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             currentIndex++;
         }
+
+        setTimeout(() => {
+            checkUpdates(currentIndex);
+        }, 1000 / urls.length);
     }
 
-    setInterval(checkUpdates, 150);
+    checkUpdates(0);
 })
