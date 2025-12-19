@@ -7,15 +7,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const lastModified = {};
 
-    async function checkUpdates(currentIndex) {
+    async function checkUpdates(currentIndex, skipUntil) {
         if(currentIndex === -1) return;
         const url = urls[currentIndex];
 
         try {
             const res = await fetch(url, { method: 'HEAD', cache: 'no-store' });
             const mod = res.headers.get('last-modified');
+
+            if (res.status !== 200) {
+                skipUntil = currentIndex;
+                throw new Error(`${url} returned status code ${res.status}`);
+            }
+            if(skipUntil !== null) {
+                if(currentIndex !== skipUntil) {
+                    throw new Error(`Skipping until current index(${currentIndex}) go back to (${skipUntil})`);
+                }
+                skipUntil = null;
+            }
+
             if (!mod) throw new Error(`No last-modified was found for ${url}`);
-            if (res.status !== 200) throw new Error(`${url} returned status code ${res.status}`);
 
             if (lastModified[url] && lastModified[url] !== mod) {
                 console.log(`[dev-reload] Change detected in: ${url}`);
@@ -37,9 +48,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         setTimeout(() => {
-            checkUpdates(currentIndex);
+            checkUpdates(currentIndex, skipUntil);
         }, 1000 / urls.length);
     }
 
-    checkUpdates(0);
+    checkUpdates(0, null);
 })
