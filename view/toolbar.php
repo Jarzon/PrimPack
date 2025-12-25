@@ -64,9 +64,14 @@
             display: none;
         }
     }
+
+    #tools {
+        float: right;
+    }
 </style>
 <details class="primToolbar">
     <summary>Prim console</summary>
+    <div id="tools"></div>
     <?php foreach ($_getToolbar() as $name => $callback):
         $output = $callback();
         if($output === '') continue;
