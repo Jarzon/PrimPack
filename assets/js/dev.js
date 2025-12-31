@@ -9,10 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if(toolbar) {
         let div = document.createElement('div');
         div.innerText = 'Dev.js';
+        let pauseConf = localStorage.getItem('_devJS_pause');
+        pause = pauseConf !== null? JSON.parse(pauseConf) : false;
         setColorState(div);
         div.addEventListener('click', () => {
             pause = !pause;
             setColorState(div);
+            localStorage.setItem('_devJS_pause', pause);
         });
         toolbar.appendChild(div);
     }
