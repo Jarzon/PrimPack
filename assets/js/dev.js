@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('load', function() {
     let pause = false;
     let toolbar = document.querySelector('.primToolbar #tools');
 
