@@ -15,6 +15,7 @@
   },
   "require": {
     "php": ">=8.4.0",
+    "ext-pdo": "*",
     "jarzon/prim": "^1.0.0"
   },
   "require-dev": {
