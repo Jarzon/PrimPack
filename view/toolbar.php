@@ -69,7 +69,7 @@
         float: right;
     }
 </style>
-<details class="primToolbar">
+<details class="primToolbar" <?php if(isset($GLOBALS['primDebug'])): ?>open<?php endif; ?>>
     <summary>Prim console</summary>
     <div id="tools"></div>
     <?php foreach ($_getToolbar() as $name => $callback):
