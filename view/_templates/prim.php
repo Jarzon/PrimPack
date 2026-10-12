@@ -89,6 +89,11 @@
             tr {
                 background-color: rgb(230,230,230);
             }
+
+            a, a:visited, a:link {
+                color: rgb(190, 50, 50);
+                text-decoration: none;
+            }
         </style>
     </head>
     <body>

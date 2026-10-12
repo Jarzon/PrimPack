@@ -9,7 +9,11 @@
     <h2>An error occured:</h2>
 
     <div class="message"><?=$error->getMessage()?></div>
-    <div class="location">in <?=$error->getFile()?> at line <?=$error->getLine()?></div>
+    <div class="location">
+        <?php if(!empty($this->options['debug_link'])): ?><a href="<?=$this->options['debug_link'] ?><?=$error->getFile()?>:<?=$error->getLine()?>"><?php endif; ?>
+            in <?=$error->getFile()?> at line <?=$error->getLine()?>
+        <?php if(!empty($this->options['debug_link'])): ?></a><?php endif; ?>
+    </div>
 
     <?php if(strpos(get_class($error), 'PDO') !== false): ?>
         <?php $PDO = $container->get('pdo');
@@ -35,7 +39,9 @@
         <div class="trace<?=strpos($class, $this->options['project_name']) !== false ? ' important':'' ?>">
             <div class="calledMethod"><?=$class . '->'?><?=$i['function'] ?? ''?>()</div>
 
-            <?=$i['file'] ?? ''?>:<?=$i['line'] ?? 0?>
+            <?php if(!empty($this->options['debug_link'])): ?><a href="<?=$this->options['debug_link'] ?><?=$i['file']?>:<?=$i['line'] ?? 0?>"><?php endif; ?>
+                <?=$i['file'] ?? ''?>:<?=$i['line'] ?? 0?>
+            <?php if(!empty($this->options['debug_link'])): ?></a><?php endif; ?>
         </div>
     <?php endforeach; ?>
 </div>
